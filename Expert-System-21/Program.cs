@@ -10,20 +10,9 @@ namespace ExpertSystemTests
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
-			//TODO: parser args
-			
-			var infos = new List<(string filename, string trueAnswer, string falseAnswer)>();
-			infos.Add(("tests/_examples/good_files/and.txt", "C", "F"));
-			infos.Add(("tests/_examples/good_files/and_in_conclusions.txt", "FCDU", ""));
-			infos.Add(("tests/_examples/good_files/comments.txt", "CDF", ""));
-			infos.Add(("tests/_examples/good_files/double_implies.txt", "FCD", ""));
-			infos.Add(("tests/_examples/good_files/mix.txt", "G", "TX"));
-			foreach (var info in infos)
-			{
-				CheckFileParser(info.filename, info.trueAnswer, info.falseAnswer);
-			}
+			CheckFileParser("C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21\\tests\\_examples\\good_files\\and.txt", "C", "F");
 		}
 
 		private static void CheckFileParser(string filePath, string trueStates, string falseStates)
