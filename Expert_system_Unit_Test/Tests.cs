@@ -48,7 +48,9 @@ namespace Expert_system_Unit_Test
         [Test]
         public void Test1()
         {
+            string startupPath = "C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21";
             var infos = new List<(string filename, string trueAnswer, string falseAnswer)>();
+            
             infos.Add(("tests/_examples/good_files/and.txt", "C", "F"));
             infos.Add(("tests/_examples/good_files/and_in_conclusions.txt", "FCDU", ""));
             infos.Add(("tests/_examples/good_files/comments.txt", "CDF", ""));
@@ -56,11 +58,12 @@ namespace Expert_system_Unit_Test
             infos.Add(("tests/_examples/good_files/mix.txt", "G", "TX"));
             foreach (var info in infos)
             {
-                CheckFileParser(info.filename, info.trueAnswer, info.falseAnswer);
+                var check = CheckFileParser(Path.Combine(startupPath, info.filename), info.trueAnswer, info.falseAnswer);
+                Assert.True(check);
             }
         }
         
-        private static void CheckFileParser(string filePath, string trueStates, string falseStates)
+        private bool CheckFileParser(string filePath, string trueStates, string falseStates)
         {
             try
             {
@@ -77,15 +80,18 @@ namespace Expert_system_Unit_Test
                     if (inTrue || inFalse)
                         check &= (result.Value == true && inTrue) || (result.Value == false && inFalse);
                 }
-                Assert.True(check);
+
+                return check;
             }
             catch (FileNotFoundException e)
             {
                 Console.WriteLine("FileNotFoundException: " + filePath);
+                return false;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                return false;
             }
         }
     }
