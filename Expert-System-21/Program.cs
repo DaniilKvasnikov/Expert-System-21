@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using ExpertSystemTests.ExpertSystem;
+using ExpertSystemTests.MyExtensions;
 using ExpertSystemTests.Notation;
 using ExpertSystemTests.Parser;
-using ExpertSystemTests.Preprocessing;
 
 namespace ExpertSystemTests
 {
@@ -12,15 +12,15 @@ namespace ExpertSystemTests
 	{
 		static void Main()
 		{
-			CheckFileParser("C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21\\tests\\_examples\\good_files\\and.txt", "C", "F");
+			CheckFileParser("C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21\\tests\\_examples\\good_files\\and.txt", "C", "F", true);
 		}
 
-		private static void CheckFileParser(string filePath, string trueStates, string falseStates)
+		private static void CheckFileParser(string filePath, string trueStates, string falseStates, bool debugMode = false)
 		{
 			try
 			{
 				string[] lines = File.ReadAllLines(filePath);
-				var parser = new FileParser(lines);
+				FileParser parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
 				var tree = new ESTree(parser);
 				var results = tree.ResolveQuerys(parser.Queries);
 				var check = true;
@@ -49,13 +49,13 @@ namespace ExpertSystemTests
 
 		private static void CheckStringPreprocessing(string input, string expectedString)
 		{
-			var inputCopy = StringPreprocessing.GetString(input);
+			var inputCopy = input.PostProcess();
 			Console.WriteLine(string.Equals(inputCopy, expectedString) + "\t" + input + " => " + inputCopy + " (" + expectedString + ")");
 		}
 
 		static void CheckNotation(ReversePolishNotation notation, string input, string expectedString, bool expectedResult)
 		{
-			var inputCopy = StringPreprocessing.GetString(input);
+			var inputCopy = input.PostProcess();
 			string notationResult = notation.Convert(inputCopy);
 			Console.WriteLine(string.Equals(notationResult, expectedString) + "\t" + input + " => " + notationResult + " (" + expectedString + ")");
 		}

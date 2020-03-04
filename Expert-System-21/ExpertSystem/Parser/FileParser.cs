@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using ExpertSystemTests.ExpertSystem;
+using ExpertSystemTests.MyExtensions;
 using ExpertSystemTests.Notation;
-using ExpertSystemTests.Preprocessing;
 
 namespace ExpertSystemTests.Parser
 {
@@ -14,13 +14,13 @@ namespace ExpertSystemTests.Parser
         public List<char> Queries { get; }
         public ArrayList Rules { get; }
 
-        private string patternFact;
-        private string patternQuerie;
-        private string patternRule;
+        protected readonly string PatternFact = @"(^=[A-Z]*(\s)*$)";
+        protected readonly string PatternQuerie = @"(^\?[A-Z]*(\s)*$)";
+        protected readonly string PatternRule = @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
 
-        private int countFact;
-        private int countQuerie;
-        private int countRule;
+        protected int CountFact;
+        protected int CountQuerie;
+        protected int CountRule;
         
         public FileParser(string[] lines)
         {
@@ -29,40 +29,33 @@ namespace ExpertSystemTests.Parser
             Queries = new List<char>();
             Rules = new ArrayList();
             
-            patternFact = @"(^=[A-Z]*(\s)*$)";
-            patternQuerie = @"(^\?[A-Z]*(\s)*$)";
-            patternRule = @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
-
-            countFact = 0;
-            countQuerie = 0;
-            countRule = 0;
-            
             foreach (var line in lines)
-                GetLineType(StringPreprocessing.GetString(line));
+                GetLineType(line);
         }
 
-        private void GetLineType(string line)
+        protected virtual void GetLineType(string line)
         {
-            bool resFact = Regex.IsMatch(line, patternFact);
-            bool resQuerie = Regex.IsMatch(line, patternQuerie);
-            bool resRule = Regex.IsMatch(line, patternRule);
+            line = line.PostProcess();
+            bool resFact = Regex.IsMatch(line, PatternFact);
+            bool resQuerie = Regex.IsMatch(line, PatternQuerie);
+            bool resRule = Regex.IsMatch(line, PatternRule);
             if (resRule)
             {
-                if (countFact > 0)
+                if (CountFact > 0)
                     throw new Exception("Facts must come after rules");
-                if (countQuerie > 0)
+                if (CountQuerie > 0)
                     throw new Exception("Queries must come after rules");
                 Rules.Add(new ESRule(line));
-                countRule++;
+                CountRule++;
             }
             if (resFact)
             {
-                if (countRule == 0)
+                if (CountRule == 0)
                     throw new Exception("Rules not found before facts");
                 line = line.Replace("=", "").Replace(" ", "");
                 foreach (var ch in line)
                     Facts.Add(ch);
-                countFact++;
+                CountFact++;
             }
 
             if (resQuerie)
@@ -70,7 +63,7 @@ namespace ExpertSystemTests.Parser
                 line = line.Replace("?", "").Replace(" ", "");
                 foreach (var ch in line)
                     Queries.Add(ch);
-                countQuerie++;
+                CountQuerie++;
             }
         }
     }
