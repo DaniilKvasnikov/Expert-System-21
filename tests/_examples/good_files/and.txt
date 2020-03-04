@@ -4,5 +4,7 @@ D + E => F  # Only D is True, so F is False
 =ABD
 ?CF
 
-# assertions
-# =ABDHC
+#=ABDHC
+#!=ABDHC
+#?=ABDHC
+

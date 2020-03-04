@@ -12,7 +12,7 @@ namespace ExpertSystemTests
 	{
 		static void Main()
 		{
-			CheckFileParser("C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21\\tests\\_examples\\good_files\\and.txt", "C", "F", true);
+			CheckFileParser("/home/rrhaenys/RiderProjects/Expert-System-21/tests/_examples/good_files/and.txt", "C", "F", true);
 		}
 
 		private static void CheckFileParser(string filePath, string trueStates, string falseStates, bool debugMode = false)

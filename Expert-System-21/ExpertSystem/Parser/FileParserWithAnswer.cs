@@ -13,9 +13,9 @@ namespace ExpertSystemTests.Parser
         protected List<string> ExpectedErrorResult;
         
         
-        protected readonly string PatternTrueResults = @"(^(#)(=))";
-        protected readonly string PatternFalseResults = @"(^#{1}!{1}={1})";
-        protected readonly string PatternErrorResults = @"(^#)";
+        protected readonly string PatternTrueResults = @"(^#=)";
+        protected readonly string PatternFalseResults = @"(^#!=)";
+        protected readonly string PatternErrorResults = @"(^#\?=)";
         
         public FileParserWithAnswer(string[] lines): base(lines)
         {
@@ -28,31 +28,17 @@ namespace ExpertSystemTests.Parser
         }
 
 
-        protected override void GetLineType(string line)
+        private void GetLineType(string line)
         {
-            base.GetLineType(line);
             bool resExpectedTrueResults = Regex.IsMatch(line, PatternTrueResults);
             bool resExpectedFalseResults = Regex.IsMatch(line, PatternFalseResults);
             bool resExpectedErrorResult = Regex.IsMatch(line, PatternErrorResults);
             if (resExpectedTrueResults)
-                AddToCorrectResults(line, ExpectedTrueResults);
+                ExpectedTrueResults.AddRange(line.ReplaceOneOf("#!?= ", ""));
             else if (resExpectedFalseResults)
-                AddToCorrectResults(line, ExpectedFalseResults);
+                ExpectedFalseResults.AddRange(line.ReplaceOneOf("#!?= ", ""));
             else if (resExpectedErrorResult)
-                AddToErrorResults(line);
-                
-        }
-
-        private void AddToErrorResults(string line)
-        {
-            line = line.ReplaceOneOf("#?=", "");
-            ExpectedErrorResult.Add(line);
-        }
-
-        private void AddToCorrectResults(string line, List<char> results)
-        {
-            line = line.ReplaceOneOf("#!?= ", "");
-            results.AddRange(line);
+                ExpectedErrorResult.Add(line.ReplaceOneOf("#?=", ""));
         }
     }
 }

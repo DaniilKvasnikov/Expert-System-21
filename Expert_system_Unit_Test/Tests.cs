@@ -11,7 +11,7 @@ namespace Expert_system_Unit_Test
     [TestFixture]
     public class Tests
     {
-        string startupPath = "C:\\Users\\Labs_09\\RiderProjects\\Expert-System-21";
+        string startupPath = "/home/rrhaenys/RiderProjects/Expert-System-21";
         
         [TestCase("tests/_examples/good_files/and.txt", "C", "F")]
         [TestCase("tests/_examples/good_files/and_in_conclusions.txt", "FCDU", "")]

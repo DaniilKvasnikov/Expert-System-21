@@ -33,7 +33,7 @@ namespace ExpertSystemTests.Parser
                 GetLineType(line);
         }
 
-        protected virtual void GetLineType(string line)
+        private void GetLineType(string line)
         {
             line = line.PostProcess();
             bool resFact = Regex.IsMatch(line, PatternFact);
