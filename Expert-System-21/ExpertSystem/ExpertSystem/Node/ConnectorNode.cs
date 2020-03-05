@@ -97,7 +97,6 @@ namespace ExpertSystemTests.ExpertSystem
             }
 
             return base.Solve();
-            //TODO: WTF?
         }
     }
 }
