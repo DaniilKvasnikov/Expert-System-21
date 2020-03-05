@@ -99,7 +99,7 @@ namespace ExpertSystemTests.ExpertSystem
                 if (checkingParents && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type != ConnectorType.AND)
                     continue;
                 var r = ((Node) node).Solve();
-                if (GetType() == typeof(NegativeNode) && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type == ConnectorType.IMPLY && checkingParents)
+                if (GetType() == typeof(NegativeNode) && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type == ConnectorType.IMPLY && !checkingParents)
                     r = (r != null) ? !r : null;
                 if (r != null && ((Node) node).stateFixed)
                     fixedRes.Add(r);
