@@ -18,5 +18,12 @@ namespace ExpertSystemTests.ExpertSystem
             base.AddChildren(child);
             child.operand_parents.Add(this);
         }
+        
+        public override void SetState(bool? status, bool isFixed)
+        {
+            base.SetState(status, isFixed);
+            var res = status;
+            ((Node)children[0]).SetState(res != null ? !res : null, isFixed);
+        }
     }
 }
