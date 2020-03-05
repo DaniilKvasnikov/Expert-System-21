@@ -8,3 +8,5 @@ J ^ K => L  # J and K are False, so J is False
 
 # assertions
 # =ABDHFI
+#=FI
+#!=CL

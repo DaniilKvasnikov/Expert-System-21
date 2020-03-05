@@ -8,9 +8,9 @@ namespace ExpertSystemTests.Parser
 {
     public class FileParserWithAnswer : FileParser
     {
-        protected List<char> ExpectedTrueResults;
-        protected List<char> ExpectedFalseResults;
-        protected List<string> ExpectedErrorResult;
+        public List<char> ExpectedTrueResults { get; }
+        public List<char> ExpectedFalseResults { get; }
+        public List<string> ExpectedErrorResult { get; }
         
         
         protected readonly string PatternTrueResults = @"(^#=)";

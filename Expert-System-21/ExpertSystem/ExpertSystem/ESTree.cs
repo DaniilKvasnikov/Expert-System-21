@@ -92,7 +92,7 @@ namespace ExpertSystemTests.ExpertSystem
                     }
                     else if (pop1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) pop1).Type == LST_OP[x])
                     {
-                        ((ConnectorNode) pop0).AddOperand(pop0);
+                        ((ConnectorNode) pop1).AddOperand(pop0);
                         new_connector = (ConnectorNode) pop1;
                         connectors.Pop();
                     }

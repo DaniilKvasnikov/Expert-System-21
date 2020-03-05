@@ -6,3 +6,5 @@ C + D => F #
 
 # assertions
 # =ABECDFGHIZ
+#=E
+#!=F

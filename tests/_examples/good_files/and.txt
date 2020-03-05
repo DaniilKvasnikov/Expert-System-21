@@ -4,7 +4,6 @@ D + E => F  # Only D is True, so F is False
 =ABD
 ?CF
 
-#=ABDHC
-#!=ABDHC
-#?=ABDHC
+#=C
+#!=F
 

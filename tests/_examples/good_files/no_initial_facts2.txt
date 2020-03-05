@@ -4,3 +4,4 @@ A | B + D => C # C is False
 
 # assertions
 # =
+#!=C

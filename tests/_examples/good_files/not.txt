@@ -6,3 +6,5 @@
 
 # assertions
 # =AED
+#=D
+#!=B

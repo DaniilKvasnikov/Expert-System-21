@@ -10,3 +10,5 @@ A + !(B) => D # D is False
 
 # assertions
 # =ABCGFZ
+#=CGFZ
+#!=DW

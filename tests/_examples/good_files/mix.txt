@@ -8,3 +8,5 @@ X | (A | K ^ Z) => N # N is True
 
 # assertions
 # =ADFNGM
+#=G
+#!=TX

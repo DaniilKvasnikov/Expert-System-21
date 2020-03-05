@@ -11,3 +11,4 @@ A + B => I # I is true
 
 # assertions
 # =ABDHCFI
+#=CDF

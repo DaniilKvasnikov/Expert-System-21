@@ -34,10 +34,10 @@ namespace ExpertSystemTests.ExpertSystem
         {
             if (Type == ConnectorType.IMPLY && Operands.Count > 0)
                 throw new Exception("An imply connection must only have one operand");
-            Operands.Add((Node)operand);
+            Operands.Add(operand);
             if (!IsRoot && Type != ConnectorType.IMPLY && !((Node) operand).operand_parents.Contains(this))
             {
-                ((Node) operand).operand_parents.Add(this);
+                operand.operand_parents.Add(this);
             }
         }
 

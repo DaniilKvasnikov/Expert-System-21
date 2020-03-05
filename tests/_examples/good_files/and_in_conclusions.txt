@@ -5,5 +5,4 @@ Y <=> F
 =ABF
 ?FCDUL
 
-# assertions
-# =ABFCDLEZWUY
+#=FCDU
