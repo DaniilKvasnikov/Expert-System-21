@@ -6,109 +6,97 @@ namespace Expert_System_21.Nodes
 {
     public class Node
     {
-        protected ArrayList children;
-        public ArrayList operand_parents;
-        protected bool visited;
-        public bool? state;
-        protected bool stateFixed;
-        protected ESTree tree;
-        
-        public bool StateFixed
-        {
-            get => stateFixed;
-            set => stateFixed = value;
-        }
+        protected readonly ArrayList Children = new ArrayList();
+        public readonly ArrayList OperandParents = new ArrayList();
+        protected bool Visited;
+        protected bool? State;
+        private bool _stateFixed;
 
-        public Node(ESTree tree)
+        public bool StateFixed => _stateFixed;
+
+        public Node()
         {
-            children = new ArrayList();
-            operand_parents = new ArrayList();
-            visited = false;
-            state = false;
-            stateFixed = false;
-            this.tree = tree;
+            Visited = false;
+            State = false;
+            _stateFixed = false;
         }
 
         public virtual void AddChildren(Node child)
         {
-            if (!children.Contains(child))
-                children.Add(child);
+            if (!Children.Contains(child))
+                Children.Add(child);
         }
 
         public virtual void SetState(bool? status, bool isFixed)
         {
-            state = status;
-            stateFixed = isFixed;
+            State = status;
+            _stateFixed = isFixed;
         }
 
         public virtual bool? Solve()
         {
-            if (visited)
-                return this.state;
+            if (Visited)
+                return State;
 
             bool? state = null;
-            if (this.state != null)
+            if (State != null)
             {
-                state = this.state;
-                if (stateFixed == true)
+                state = State;
+                if (_stateFixed)
                     return state;
             }
             
-            var fixedRet = new List<bool?>();
-            var unfixedRet = new List<bool?>();
+            var fixedNodeList = new List<bool?>();
+            var unfixedNodeList = new List<bool?>();
 
-            var res = SolveGroupedNode(children, false);
-            fixedRet.AddRange(res.fixedRet);
-            unfixedRet.AddRange(res.unfixedRet);
+            var (fixedNodeListNew, unfixedNodeListNew) = SolveGroupedNode(Children, false);
+            fixedNodeList.AddRange(fixedNodeListNew);
+            unfixedNodeList.AddRange(unfixedNodeListNew);
 
-            SolveGroupedNode(operand_parents, true);
+            SolveGroupedNode(OperandParents, true);
 
-            var ret = fixedRet.Count != 0 ? fixedRet : unfixedRet;
-            if (ret.Count != 0)
-                state = ret.Contains(true);
+            var nodeList = fixedNodeList.Count != 0 ? fixedNodeList : unfixedNodeList;
+            if (nodeList.Count != 0)
+                state = nodeList.Contains(true);
 
-            var isFixed = fixedRet.Count != 0;
+            var isFixed = fixedNodeList.Count != 0;
 
             var needReverse = true;
             if (state == null)
             {
                 needReverse = false;
-                state = this.state;
+                state = State;
             }
 
-            if (state != null)
-            {
-                if (GetType() == typeof(NegativeNode) && needReverse)
-                    state = state != null ? !state : null;
-                SetState(state, isFixed);
-                return state;
-            }
-
-            return null;
+            if (state == null) return null;
+            if (GetType() == typeof(NegativeNode) && needReverse)
+                state = !state;
+            SetState(state, isFixed);
+            return state;
         }
 
         private (List<bool?> fixedRet, List<bool?> unfixedRet) SolveGroupedNode(ArrayList nodes, bool checkingParents)
         {
-            visited = true;
+            Visited = true;
 
-            var fixedRes = new List<bool?>();
-            var unfixedList = new List<bool?>();
+            var fixedNodeList = new List<bool?>();
+            var unfixedNodeList = new List<bool?>();
 
-            foreach (var node in nodes)
+            foreach (Node node in nodes)
             {
                 if (checkingParents && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type != ConnectorType.AND)
                     continue;
-                var r = ((Node) node).Solve();
+                var nodeSolve = node.Solve();
                 if (GetType() == typeof(NegativeNode) && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type == ConnectorType.IMPLY && !checkingParents)
-                    r = (r != null) ? !r : null;
-                if (r != null && ((Node) node).stateFixed)
-                    fixedRes.Add(r);
-                else if (r != null)
-                    unfixedList.Add(r);
+                    nodeSolve = !nodeSolve;
+                if (nodeSolve != null && node._stateFixed)
+                    fixedNodeList.Add(nodeSolve);
+                else if (nodeSolve != null)
+                    unfixedNodeList.Add(nodeSolve);
             }
 
-            visited = false;
-            return (fixedRes, unfixedList);
+            Visited = false;
+            return (fixedNodeList, unfixedNodeList);
         }
     }
 }

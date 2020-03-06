@@ -51,13 +51,13 @@ namespace Expert_System_21
                 Node left = SetAtomRelationsFromRPN(rule.NpiLeft);
                 Node right = SetAtomRelationsFromRPN(rule.NpiRight);
 
-                var connectorImply = new ConnectorNode(ConnectorType.IMPLY, this);
+                var connectorImply = new ConnectorNode(ConnectorType.IMPLY);
                 right.AddChildren(connectorImply);
                 connectorImply.AddOperand(left);
                 _implication.Add(new ImplicationData(left, right));
                 if (rule.Type == ImplicationType.EQUAL)
                 {
-                    var connector_imply_1 = new ConnectorNode(ConnectorType.IMPLY, this);
+                    var connector_imply_1 = new ConnectorNode(ConnectorType.IMPLY);
                     left.AddChildren(connector_imply_1);
                     connector_imply_1.AddOperand(right);
                     _implication.Add(new ImplicationData(right, left));
@@ -98,7 +98,7 @@ namespace Expert_System_21
                     }
                     else
                     {
-                        newConnector = new ConnectorNode(ListOperations[ruleRPN], this);
+                        newConnector = new ConnectorNode(ListOperations[ruleRPN]);
                         newConnector.AddOperands(new[]{atom1, atom2});
                     }
                     _connectors.Push(newConnector);
@@ -125,19 +125,17 @@ namespace Expert_System_21
                 SetAtomState(trueFact, true);
         }
 
-        private void SetAtomState(char atom, bool? value)
+        private void SetAtomState(char atom, bool? state)
         {
             Node node = _atoms[atom] ?? throw new ArgumentNullException("_atoms[atom]");
-            node.state = value;
-            if (value != null && value.Value)
-                node.StateFixed = true;
+            node.SetState(state, state != null && state.Value);
         }
 
         private void AddNewAtomsNode(List<char> newAtoms)
         {
             foreach (var atom in newAtoms.Where(atom => !_atoms.ContainsKey(atom)))
             {
-                _atoms.Add(atom, new AtomNode(atom, this));
+                _atoms.Add(atom, new AtomNode());
             }
         }
 

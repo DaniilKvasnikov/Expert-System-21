@@ -4,26 +4,25 @@ namespace Expert_System_21.Nodes
 {
     public class NegativeNode: Node
     {
-        public NegativeNode(Node child) : base(null)
+        public NegativeNode(Node child)
         {
             if (child == null)
                 throw new Exception("NegativeNode must have one child!");
 
-            state = null;
+            State = null;
             AddChildren(child);
         }
 
         public override void AddChildren(Node child)
         {
             base.AddChildren(child);
-            child.operand_parents.Add(this);
+            child.OperandParents.Add(this);
         }
         
         public override void SetState(bool? status, bool isFixed)
         {
             base.SetState(status, isFixed);
-            var res = status;
-            ((Node)children[0]).SetState(res != null ? !res : null, isFixed);
+            ((Node)Children[0]).SetState(!status, isFixed);
         }
     }
 }

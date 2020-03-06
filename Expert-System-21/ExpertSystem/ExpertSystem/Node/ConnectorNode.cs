@@ -7,27 +7,22 @@ namespace Expert_System_21.Nodes
     public class ConnectorNode : Node
     {
         public ConnectorType Type { get; }
-        public List<Node> Operands { get; }
+        public List<Node> Operands { get; } = new List<Node>();
         public bool IsRoot { get; }
 
         public override void SetState(bool? status, bool isFixed)
         {
             base.SetState(status, isFixed);
 
-            if (Type == ConnectorType.AND && status == true)
-            {
-                foreach (var operand in Operands)
-                {
-                    operand.SetState(true, isFixed);
-                }
-            }
+            if (Type != ConnectorType.AND || status != true) return;
+            foreach (var operand in Operands)
+                operand.SetState(true, isFixed);
         }
 
-        public ConnectorNode(ConnectorType type, ESTree esTree): base(esTree)
+        public ConnectorNode(ConnectorType type)
         {
             Type = type;
-            Operands = new List<Node>();
-            state = null;
+            State = null;
             IsRoot = false;
         }
         
@@ -36,10 +31,9 @@ namespace Expert_System_21.Nodes
             if (Type == ConnectorType.IMPLY && Operands.Count > 0)
                 throw new Exception("An imply connection must only have one operand");
             Operands.Add(operand);
-            if (!IsRoot && Type != ConnectorType.IMPLY && !((Node) operand).operand_parents.Contains(this))
-            {
-                operand.operand_parents.Add(this);
-            }
+            if (IsRoot || Type == ConnectorType.IMPLY || operand.OperandParents.Contains(this))
+                return;
+            operand.OperandParents.Add(this);
         }
 
 
@@ -51,50 +45,47 @@ namespace Expert_System_21.Nodes
 
         public override bool? Solve()
         {
-            if (visited)
-                return state;
-            visited = true;
+            if (Visited)
+                return State;
+            Visited = true;
             if (Type == ConnectorType.IMPLY)
             {
-                var ret = Operands[0].Solve();
-                SetState(ret, Operands[0].StateFixed);
-                visited = false;
-                return ret;
+                var state = Operands[0].Solve();
+                SetState(state, Operands[0].StateFixed);
+                Visited = false;
+                return state;
             }
 
-            bool? res = null;
-            bool found_none = false;
-            bool has_fixed_operands = false;
+            bool? operandsResult = null;
+            bool foundNone = false;
+            bool hasFixedOperands = false;
 
             foreach (var operand in Operands)
             {
-                var op_res = operand.Solve();
-                if (operand.StateFixed)
-                    has_fixed_operands = true;
-                if (op_res == null)
-                {
-                    found_none = true;
+                var operandResult = operand.Solve();
+                hasFixedOperands |= operand.StateFixed;
+                foundNone |= (operandResult == null);
+                if (operandResult == null)
                     continue;
-                }
-                else if (res == null)
-                    res = op_res;
+                if (operandsResult == null)
+                    operandsResult = operandResult;
                 else if (Type == ConnectorType.AND)
-                    res &= op_res;
+                    operandsResult &= operandResult;
                 else if (Type == ConnectorType.OR)
-                    res |= op_res;
+                    operandsResult |= operandResult;
                 else if (Type == ConnectorType.XOR)
-                    res ^= op_res;
+                    operandsResult ^= operandResult;
             }
 
-            visited = false;
-            if (found_none && ((Type == ConnectorType.OR && res == false) ||
-                               (Type == ConnectorType.AND && res == true) ||
+            Visited = false;
+            if (foundNone && ((Type == ConnectorType.OR && operandsResult == false) ||
+                               (Type == ConnectorType.AND && operandsResult == true) ||
                                (Type == ConnectorType.XOR)))
                 return null;
-            if (res != null)
+            if (operandsResult != null)
             {
-                SetState(res, has_fixed_operands);
-                return res;
+                SetState(operandsResult, hasFixedOperands);
+                return operandsResult;
             }
 
             return base.Solve();
