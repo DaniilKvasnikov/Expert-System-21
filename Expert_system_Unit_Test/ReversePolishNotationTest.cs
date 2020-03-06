@@ -31,5 +31,17 @@ namespace Expert_system_Unit_Test
             Assert.True(string.Equals(notationResult, expectedString));
         }
 
+        [TestCase('A', CharType.Fact)]
+        [TestCase('+', CharType.Operation)]
+        [TestCase('!', CharType.PrefixOperation)]
+        [TestCase('(', CharType.OpeningBracket)]
+        [TestCase(')', CharType.ClosingBracket)]
+        [TestCase('?', CharType.Error)]
+        public void TestGetType(char c, CharType type)
+        {
+            var notation = new ReversePolishNotation();
+            Assert.True(string.Equals(notation.GetType(c), type));
+        }
+
     }
 }
