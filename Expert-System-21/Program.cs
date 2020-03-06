@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using ExpertSystemTests.ExpertSystem;
+using ExpertSystemTests.ExpertSystem.Log;
 using ExpertSystemTests.MyExtensions;
 using ExpertSystemTests.Notation;
 using ExpertSystemTests.Parser;
@@ -14,10 +16,7 @@ namespace ExpertSystemTests
 
 		static void Main()
 		{
-			var check = CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/parenthesis.txt"), true);
-			Console.ForegroundColor = check ? ConsoleColor.Green : ConsoleColor.Red;
-			Console.WriteLine(ProjectPath + ": " + check + ". The end!");
-			Console.ResetColor();;
+			CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/parenthesis.txt"), true);
 		}
 		
 		public static bool CheckFileParser(string filePath, bool debugMode = false)
@@ -25,22 +24,12 @@ namespace ExpertSystemTests
 			try
 			{
 				string[] lines = File.ReadAllLines(filePath);
-				FileParser parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
+				var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
 				var tree = new ESTree(parser);
-				var results = tree.ResolveQuerys(parser.Queries);
-				var check = true;
-				foreach (var result in results)
-				{
-					Console.WriteLine(result.Key + " : " + result.Value);
-					if (debugMode)
-					{
-						var inTrue = ((FileParserWithAnswer) parser).ExpectedTrueResults.Contains(result.Key);
-						var inFalse = ((FileParserWithAnswer) parser).ExpectedFalseResults.Contains(result.Key);
-						if (inTrue || inFalse)
-							check &= (result.Value == true && inTrue) || (result.Value == false && inFalse);
-					}
-				}
-				return check;
+				Dictionary<char, bool?> results = tree.ResolveQuerys(parser.Queries);
+				bool result = !debugMode || CheckResults(results, (FileParserWithAnswer) parser);
+				Log.PrintResults(results, result);
+				return result;
 			}
 			catch (FileNotFoundException e)
 			{
@@ -54,17 +43,18 @@ namespace ExpertSystemTests
 			}
 		}
 
-		private static void CheckStringPreprocessing(string input, string expectedString)
+		private static bool CheckResults(Dictionary<char, bool?> results, FileParserWithAnswer parser)
 		{
-			var inputCopy = input.PostProcess();
-			Console.WriteLine(string.Equals(inputCopy, expectedString) + "\t" + input + " => " + inputCopy + " (" + expectedString + ")");
-		}
+			bool check = true;
+			foreach (var result in results)
+			{
+				var inTrue = parser.ExpectedTrueResults.Contains(result.Key);
+				var inFalse = parser.ExpectedFalseResults.Contains(result.Key);
+				if (inTrue || inFalse)
+					check &= (result.Value == true && inTrue) || (result.Value == false && inFalse);
+			}
 
-		static void CheckNotation(ReversePolishNotation notation, string input, string expectedString, bool expectedResult)
-		{
-			var inputCopy = input.PostProcess();
-			string notationResult = notation.Convert(inputCopy);
-			Console.WriteLine(string.Equals(notationResult, expectedString) + "\t" + input + " => " + notationResult + " (" + expectedString + ")");
+			return check;
 		}
 	}
 }
