@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Expert_System_21.ExpertSystem;
 using Expert_System_21.Nodes;
 using Expert_System_21.Parser;
@@ -10,160 +11,140 @@ namespace Expert_System_21
 {
     public class ESTree
     {
-        private List<char> OPERATORS = new List<char>(){'!', '+', '|', '^', '(', ')'};
+        private static readonly List<char> Operators = new List<char>(){'!', '+', '|', '^', '(', ')'};
 
-        private Dictionary<char, ConnectorType> LST_OP = new Dictionary<char, ConnectorType>()
+        private static readonly Dictionary<char, ConnectorType> ListOperations = new Dictionary<char, ConnectorType>()
         {
             ['+'] = ConnectorType.AND,
             ['|'] = ConnectorType.OR,
             ['^'] = ConnectorType.XOR,
         };
-        private Dictionary<char, AtomNode> atoms;
-        private Stack<ConnectorNode> connectors;
-        private List<ImplicationData> implication;
-        private ConnectorNode root_node;
-        
+
+        private readonly Dictionary<char, AtomNode> _atoms = new Dictionary<char, AtomNode>();
+        private readonly Stack<ConnectorNode> _connectors = new Stack<ConnectorNode>();
+        private readonly List<ImplicationData> _implication = new List<ImplicationData>();
+
         public ESTree(FileParser parser)
         {
-            atoms = new Dictionary<char, AtomNode>();
-            connectors = new Stack<ConnectorNode>();
-            implication = new List<ImplicationData>();
-            root_node = new ConnectorNode(ConnectorType.AND, this);
-
             InitAtomsList(parser.Rules);
-            SetAtomsState(parser.Rules, parser.Facts, parser.Queries);
+            SetStateAtoms(parser.Rules, parser.Facts);
             SetAtomsRelations(parser.Rules);
+        }
+
+        private void InitAtomsList(ArrayList rules)
+        {
+            foreach (ESRule rule in rules)
+            {
+                var allAtoms = new List<char>();
+                allAtoms.AddRange(rule.GetAtomsPart(rule.NpiLeft));
+                allAtoms.AddRange(rule.GetAtomsPart(rule.NpiRight));
+                AddNewAtomsNode(allAtoms);
+            }
         }
 
         private void SetAtomsRelations(ArrayList rules)
         {
-            if (atoms.Count == 0)
+            if (_atoms.Count == 0)
                 throw new Exception("Atoms not found!");
             foreach (ESRule rule in rules)
             {
-                Node left = (Node) SetAtomRelationsFromNpi(rule.NpiLeft);
-                Node right = (Node) SetAtomRelationsFromNpi(rule.NpiRight);
+                Node left = SetAtomRelationsFromRPN(rule.NpiLeft);
+                Node right = SetAtomRelationsFromRPN(rule.NpiRight);
 
-                ConnectorNode connectorImply = (ConnectorNode) CreateConnector(ConnectorType.IMPLY);
+                var connectorImply = new ConnectorNode(ConnectorType.IMPLY, this);
                 right.AddChildren(connectorImply);
                 connectorImply.AddOperand(left);
-                implication.Add(new ImplicationData(left, right));
+                _implication.Add(new ImplicationData(left, right));
                 if (rule.Type == ImplicationType.EQUAL)
                 {
-                    ConnectorNode connector_imply_1 = (ConnectorNode) CreateConnector(ConnectorType.IMPLY);
+                    var connector_imply_1 = new ConnectorNode(ConnectorType.IMPLY, this);
                     left.AddChildren(connector_imply_1);
                     connector_imply_1.AddOperand(right);
-                    implication.Add(new ImplicationData(right, left));
+                    _implication.Add(new ImplicationData(right, left));
                 }
             }
         }
 
-        private object CreateConnector(ConnectorType type)
+        private Node SetAtomRelationsFromRPN(string rulesRPN)
         {
-            return new ConnectorNode(type, this);
-        }
+            var stack = new Stack<Node>();
 
-        private object SetAtomRelationsFromNpi(string ruleNpi)
-        {
-            var stack = new Stack();
-
-            foreach (var x in ruleNpi)
+            foreach (var ruleRPN in rulesRPN)
             {
-                if (!OPERATORS.Contains(x))
-                    stack.Push(atoms[x]);
-                else if (x == '!')
+                if (!Operators.Contains(ruleRPN))
                 {
-                    Node child = (Node) stack.Pop();
-                    var connector_not = new NegativeNode(child);
-                    child.operand_parents.Add(connector_not);
-                    stack.Push(connector_not);
+                    stack.Push(_atoms[ruleRPN]);
+                }
+                else if (ruleRPN == '!')
+                {
+                    stack.Push(new NegativeNode(stack.Pop()));
                 }
                 else
                 {
-                    ConnectorNode new_connector;
-                    Node pop0 = (Node) stack.Pop();
-                    Node pop1 = (Node) stack.Pop();
-                    if (pop0.GetType() == typeof(ConnectorNode) && ((ConnectorNode) pop0).Type == LST_OP[x])
+                    ConnectorNode newConnector;
+                    Node atom1 = stack.Pop();
+                    Node atom2 = stack.Pop();
+                    if (atom1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom1).Type == ListOperations[ruleRPN])
                     {
-                        ((ConnectorNode) pop0).AddOperand(pop1);
-                        new_connector = (ConnectorNode) pop0;
-                        connectors.Pop();
+                        ((ConnectorNode) atom1).AddOperand(atom2);
+                        newConnector = (ConnectorNode) atom1;
+                        _connectors.Pop();
                     }
-                    else if (pop1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) pop1).Type == LST_OP[x])
+                    else if (atom2.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom2).Type == ListOperations[ruleRPN])
                     {
-                        ((ConnectorNode) pop1).AddOperand(pop0);
-                        new_connector = (ConnectorNode) pop1;
-                        connectors.Pop();
+                        ((ConnectorNode) atom2).AddOperand(atom1);
+                        newConnector = (ConnectorNode) atom2;
+                        _connectors.Pop();
                     }
                     else
                     {
-                        ConnectorNode connector_x = (ConnectorNode) CreateConnector(LST_OP[x]);
-                        connector_x.AddOperands(new Node[]{(Node) pop0, (Node) pop1});
-                        new_connector = connector_x;
+                        newConnector = new ConnectorNode(ListOperations[ruleRPN], this);
+                        newConnector.AddOperands(new[]{atom1, atom2});
                     }
-                    connectors.Push(new_connector);
-                    stack.Push(new_connector);
+                    _connectors.Push(newConnector);
+                    stack.Push(newConnector);
                 }
             }
 
             return stack.Pop();
         }
 
-        private void SetAtomsState(ArrayList parserRules, List<char> parserFacts, List<char> parserQueries)
+        private void SetStateAtoms(ArrayList rules, List<char> trueFacts)
         {
-            List<char> atoms = new List<char>();
-            foreach (ESRule rule in parserRules)
+            var nullStateAtoms = new List<char>();
+            foreach (ESRule rule in rules)
             {
-                
-                var atomsAdd = new List<char>();
-                atomsAdd.AddRange(rule.GetAtomsPart(rule.NpiRight));
+                nullStateAtoms.AddRange(rule.GetAtomsPart(rule.NpiRight));
                 if (rule.Type == ImplicationType.EQUAL)
-                    atomsAdd.AddRange(rule.GetAtomsPart(rule.NpiLeft));
-                atoms.AddRange(atomsAdd);
+                    nullStateAtoms.AddRange(rule.GetAtomsPart(rule.NpiLeft));
             }
 
-            foreach (var atom in atoms)
-                SetAtomState(atom, null);
-            foreach (var atom in parserFacts)
-                SetAtomState(atom, true);
+            foreach (var nullStateAtom in nullStateAtoms)
+                SetAtomState(nullStateAtom, null);
+            foreach (var trueFact in trueFacts)
+                SetAtomState(trueFact, true);
         }
 
         private void SetAtomState(char atom, bool? value)
         {
-            if (!atoms.ContainsKey(atom))
-                throw new Exception("Atom not found! " + atom);
-            Node node = atoms[atom];
+            Node node = _atoms[atom] ?? throw new ArgumentNullException("_atoms[atom]");
             node.state = value;
             if (value != null && value.Value)
                 node.StateFixed = true;
         }
 
-        private void InitAtomsList(ArrayList parserRules)
+        private void AddNewAtomsNode(List<char> newAtoms)
         {
-            foreach (ESRule rule in parserRules)
+            foreach (var atom in newAtoms.Where(atom => !_atoms.ContainsKey(atom)))
             {
-                var atomsAdd = new List<char>();
-                atomsAdd.AddRange(rule.GetAtomsPart(rule.NpiLeft));
-                atomsAdd.AddRange(rule.GetAtomsPart(rule.NpiRight));
-                CreateAtom(atomsAdd);
-            }
-        }
-
-        private void CreateAtom(List<char> newAtoms)
-        {
-            foreach (var atom in newAtoms)
-            {
-                if (!atoms.ContainsKey(atom))
-                    atoms.Add(atom, new AtomNode(atom, this));
+                _atoms.Add(atom, new AtomNode(atom, this));
             }
         }
 
         public bool? ResolveQuery(char query)
         {
-            var atom = atoms[query];
-            if (atom == null)
-                throw new Exception("Неизвестный атом");
-            var res = atom.Solve();
+            var atom = _atoms[query] ?? throw new ArgumentNullException("_atoms[atom]");
+            bool? res = atom.Solve();
             if (res == null)
             {
                 atom.SetState(false, true);
@@ -176,7 +157,7 @@ namespace Expert_System_21
 
         private void CheckErrors()
         {
-            foreach (var i in implication)
+            foreach (var i in _implication)
             {
                 i.validate();
             }
@@ -184,7 +165,6 @@ namespace Expert_System_21
 
         public Dictionary<char, bool?> ResolveQuerys(List<char> queries)
         {
-            //LINQ
             var results = new Dictionary<char, bool?>();
             foreach (var query in queries)
                 results[query] = ResolveQuery(query);
