@@ -55,13 +55,11 @@ namespace Expert_System_21
                 right.AddChildren(connectorImply);
                 connectorImply.AddOperand(left);
                 _implication.Add(new ImplicationData(left, right));
-                if (rule.Type == ImplicationType.EQUAL)
-                {
-                    var connector_imply_1 = new ConnectorNode(ConnectorType.IMPLY);
-                    left.AddChildren(connector_imply_1);
-                    connector_imply_1.AddOperand(right);
-                    _implication.Add(new ImplicationData(right, left));
-                }
+                if (rule.Type != ImplicationType.EQUAL) continue;
+                var connectorEqual = new ConnectorNode(ConnectorType.IMPLY);
+                left.AddChildren(connectorEqual);
+                connectorEqual.AddOperand(right);
+                _implication.Add(new ImplicationData(right, left));
             }
         }
 
@@ -157,7 +155,7 @@ namespace Expert_System_21
         {
             foreach (var i in _implication)
             {
-                i.validate();
+                i.Validate();
             }
         }
 

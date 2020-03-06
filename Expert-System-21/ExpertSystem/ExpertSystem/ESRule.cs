@@ -10,10 +10,10 @@ namespace Expert_System_21.ExpertSystem
     public class ESRule
     {
         public ImplicationType Type { get; }
-        public string NpiLeft { get; private set; }
-        public string NpiRight { get; private set; }
+        public string NpiLeft { get; }
+        public string NpiRight { get; }
 
-        ReversePolishNotation notation;
+        readonly ReversePolishNotation notation;
         public ESRule(string line)
         {
             Type = line.Contains("<=>") ? ImplicationType.EQUAL : ImplicationType.IMPLY;
@@ -26,21 +26,17 @@ namespace Expert_System_21.ExpertSystem
             NpiRight = notation.Convert(lines[1]);
             if (NpiRight.Contains("+!"))
                 throw new Exception("Format error!(right +!) " + line);
-            //TODO: check->
             if (Type == ImplicationType.EQUAL && (NpiLeft.Contains('|') || NpiRight.Contains('|')))
                 throw new Exception("Format error!(| and <=>) " + line);
             if (Type == ImplicationType.EQUAL && (NpiLeft.Contains("+!") || NpiRight.Contains("+!")))
                 throw new Exception("Format error!(+! and <=>) " + line);
-                
         }
 
         public List<char> GetAtomsPart(string part)
         {
-            //TODO: LINQ
             var atoms = new List<char>();
-            foreach (var ch in part)
-                if (AtomNode.IsAtom(ch) && !atoms.Contains(ch))
-                    atoms.Add(ch);
+            foreach (var atom in part.Where(atom => AtomNode.IsAtom(atom) && !atoms.Contains(atom)))
+                atoms.Add(atom);
             return atoms;
         }
         
