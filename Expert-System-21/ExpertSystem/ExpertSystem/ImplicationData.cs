@@ -1,6 +1,7 @@
 ﻿using System;
+using Expert_System_21.Nodes;
 
-namespace ExpertSystemTests.ExpertSystem
+namespace Expert_System_21
 {
     public class ImplicationData
     {

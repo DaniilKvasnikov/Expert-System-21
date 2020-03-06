@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ExpertSystemTests.ExpertSystem;
-using ExpertSystemTests.Notation;
-using ExpertSystemTests.Parser;
+﻿using System.IO;
 using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
@@ -65,8 +60,8 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/_examples/good_files/test_slack4")]
         public void CheckFileParserDebug(string filePath)
         {
-            string path = Path.Combine(ExpertSystemTests.Program.ProjectPath, filePath);
-            var res = ExpertSystemTests.Program.CheckFileParser(path, false);
+            string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
+            var res = Expert_System_21.Program.CheckFileParser(path, false);
             Assert.True(res);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace ExpertSystemTests.ExpertSystem
+﻿namespace Expert_System_21.Type
 {
     public enum ImplicationType
     {

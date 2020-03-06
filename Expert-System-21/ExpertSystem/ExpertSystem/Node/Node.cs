@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Expert_System_21.Type;
 
-namespace ExpertSystemTests.ExpertSystem
+namespace Expert_System_21.Nodes
 {
     public class Node
     {

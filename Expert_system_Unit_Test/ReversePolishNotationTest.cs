@@ -1,6 +1,6 @@
 ﻿using System;
-using ExpertSystemTests.MyExtensions;
-using ExpertSystemTests.Notation;
+using Expert_System_21.MyExtensions;
+using Expert_System_21.Notation;
 using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
@@ -13,7 +13,7 @@ namespace Expert_system_Unit_Test
         [TestCase("#A+B", "")]
         public void CheckStringPreprocessing(string input, string expectedString)
         {
-            var inputCopy = input.PostProcess();
+            var inputCopy = input.PreProcess();
             Assert.True(string.Equals(inputCopy, expectedString));
         }
 
@@ -26,7 +26,7 @@ namespace Expert_system_Unit_Test
         public void CheckNotation(string input, string expectedString)
         {
             var notation = new ReversePolishNotation();
-            var inputCopy = input.PostProcess();
+            var inputCopy = input.PreProcess();
             string notationResult = notation.Convert(inputCopy);
             Assert.True(string.Equals(notationResult, expectedString));
         }

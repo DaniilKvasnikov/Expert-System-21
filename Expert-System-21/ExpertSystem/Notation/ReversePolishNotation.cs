@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExpertSystemTests.Notation
+namespace Expert_System_21.Notation
 {
 	public enum CharType
 	{
@@ -101,12 +101,16 @@ namespace ExpertSystemTests.Notation
 		{
 			try
 			{
-				return _dicts[CharType.PrefixOperation].ContainsKey(peek)
-				       || _dicts[CharType.Operation][peek] > _dicts[CharType.Operation][curr];
+				bool isPrefix = _dicts[CharType.PrefixOperation].ContainsKey(peek);
+				bool isMorePriorityOperation = _dicts[CharType.Operation].ContainsKey(peek) &&
+				                               _dicts[CharType.Operation].ContainsKey(curr) &&
+				                               _dicts[CharType.Operation][peek] > _dicts[CharType.Operation][curr];
+				return isPrefix || isMorePriorityOperation;
 			}
 			catch (KeyNotFoundException e)
 			{
-				return false;
+				Console.WriteLine(e);
+				throw;
 			}
 			catch (Exception e)
 			{
@@ -120,7 +124,6 @@ namespace ExpertSystemTests.Notation
 			var c = (char) 0;
 			output = input;
 			charType = CharType.StringEnd;
-			if (input.Length == 0) return c;
 			while (input.Length > 0)
 			{
 				c = input[0];

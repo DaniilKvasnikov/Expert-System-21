@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ExpertSystemTests.Parser;
+using Expert_System_21.ExpertSystem;
+using Expert_System_21.Nodes;
+using Expert_System_21.Parser;
+using Expert_System_21.Type;
 
-namespace ExpertSystemTests.ExpertSystem
+namespace Expert_System_21
 {
     public class ESTree
     {
@@ -19,8 +22,6 @@ namespace ExpertSystemTests.ExpertSystem
         private Stack<ConnectorNode> connectors;
         private List<ImplicationData> implication;
         private ConnectorNode root_node;
-        private bool parsed;
-        private bool is_root;
         
         public ESTree(FileParser parser)
         {
@@ -28,8 +29,6 @@ namespace ExpertSystemTests.ExpertSystem
             connectors = new Stack<ConnectorNode>();
             implication = new List<ImplicationData>();
             root_node = new ConnectorNode(ConnectorType.AND, this);
-            parsed = true;
-            is_root = true;
 
             InitAtomsList(parser.Rules);
             SetAtomsState(parser.Rules, parser.Facts, parser.Queries);

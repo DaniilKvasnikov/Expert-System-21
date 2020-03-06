@@ -2,68 +2,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using ExpertSystemTests.ExpertSystem;
-using ExpertSystemTests.MyExtensions;
-using ExpertSystemTests.Notation;
+using Expert_System_21.ExpertSystem;
+using Expert_System_21.MyExtensions;
 
-namespace ExpertSystemTests.Parser
+namespace Expert_System_21.Parser
 {
     public class FileParser
     {
-        public List<char> Facts{ get; }
-        public List<char> Queries { get; }
-        public ArrayList Rules { get; }
+        public List<char> Facts{ get; } = new List<char>();
+        public List<char> Queries { get; } = new List<char>();
+        public ArrayList Rules { get; } = new ArrayList();
 
-        protected readonly string PatternFact = @"(^=[A-Z]*(\s)*$)";
-        protected readonly string PatternQuerie = @"(^\?[A-Z]*(\s)*$)";
-        protected readonly string PatternRule = @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
+        private const string PatternFact = @"(^=[A-Z]*(\s)*$)";
+        private const string PatternQuerie = @"(^\?[A-Z]*(\s)*$)";
+        private const string PatternRule = @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
 
-        protected int CountFact;
-        protected int CountQuerie;
-        protected int CountRule;
+        private int _countFact;
+        private int _countQuerie;
+        private int _countRule;
         
-        public FileParser(string[] lines)
+        public FileParser(IEnumerable<string> lines)
         {
-            
-            Facts = new List<char>();
-            Queries = new List<char>();
-            Rules = new ArrayList();
-            
             foreach (var line in lines)
-                GetLineType(line);
+            {
+                AddExpectedResult(line);
+            }
         }
 
-        private void GetLineType(string line)
+        private void AddExpectedResult(string line)
         {
-            line = line.PostProcess();
-            bool resFact = Regex.IsMatch(line, PatternFact);
-            bool resQuerie = Regex.IsMatch(line, PatternQuerie);
-            bool resRule = Regex.IsMatch(line, PatternRule);
-            if (resRule)
+            line = line.PreProcess();
+            bool isMatchFact = Regex.IsMatch(line, PatternFact);
+            bool isMatchQuerie = Regex.IsMatch(line, PatternQuerie);
+            bool isMatchRule = Regex.IsMatch(line, PatternRule);
+            if (isMatchRule)
             {
-                if (CountFact > 0)
+                if (_countFact > 0)
                     throw new Exception("Facts must come after rules");
-                if (CountQuerie > 0)
+                if (_countQuerie > 0)
                     throw new Exception("Queries must come after rules");
                 Rules.Add(new ESRule(line));
-                CountRule++;
+                _countRule++;
             }
-            if (resFact)
+            if (isMatchFact)
             {
-                if (CountRule == 0)
+                if (_countRule == 0)
                     throw new Exception("Rules not found before facts");
-                line = line.Replace("=", "").Replace(" ", "");
-                foreach (var ch in line)
-                    Facts.Add(ch);
-                CountFact++;
+                line = line.Replace("=", "");
+                Facts.AddRange(line);
+                _countFact++;
             }
 
-            if (resQuerie)
+            if (isMatchQuerie)
             {
-                line = line.Replace("?", "").Replace(" ", "");
-                foreach (var ch in line)
-                    Queries.Add(ch);
-                CountQuerie++;
+                line = line.Replace("?", "");
+                Queries.AddRange(line);
+                _countQuerie++;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExpertSystemTests.ExpertSystem
+namespace Expert_System_21.Nodes
 {
     public class NegativeNode: Node
     {

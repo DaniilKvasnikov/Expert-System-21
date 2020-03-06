@@ -47,6 +47,7 @@
         <Compile Include="ExpertSystem\ExpertSystem\Node\Node.cs" />
         <Compile Include="ExpertSystem\ExpertSystem\Types\ConnectorType.cs" />
         <Compile Include="ExpertSystem\ExpertSystem\Types\ImplicationType.cs" />
+        <Compile Include="ExpertSystem\Log\Log.cs" />
         <Compile Include="ExpertSystem\Notation\ReversePolishNotation.cs" />
         <Compile Include="ExpertSystem\Parser\FileParser.cs" />
         <Compile Include="ExpertSystem\Parser\FileParserWithAnswer.cs" />

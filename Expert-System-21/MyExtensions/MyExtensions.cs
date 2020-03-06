@@ -1,4 +1,6 @@
-﻿namespace ExpertSystemTests.MyExtensions
+﻿using System.Linq;
+
+namespace Expert_System_21.MyExtensions
 {
     public static class MyExtensions
     {
@@ -17,19 +19,14 @@
             return input.Replace(" ", "").Replace("\t", "");
         }
         
-        public static string PostProcess(this string input)
+        public static string PreProcess(this string input)
         {
             return input.DeleteTabs().DeleteComment();
         }
 
-        public static string ReplaceOneOf(this string input, string oldValue, string newValue)
+        public static string ReplaceOneOf(this string input, string oldValues, string newValue)
         {
-            foreach (var ch in oldValue)
-            {
-                input = input.Replace(ch.ToString(), newValue);
-            }
-
-            return input;
+            return oldValues.Aggregate(input, (current, oldValue) => current.Replace(oldValue.ToString(), newValue));
         }
     }
 }

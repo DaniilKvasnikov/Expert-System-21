@@ -1,4 +1,4 @@
-﻿namespace ExpertSystemTests.ExpertSystem
+﻿namespace Expert_System_21.Nodes
 {
     public class AtomNode: Node
     {

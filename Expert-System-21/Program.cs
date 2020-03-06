@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ExpertSystemTests.ExpertSystem;
+using Expert_System_21.Parser;
 using ExpertSystemTests.ExpertSystem.Log;
-using ExpertSystemTests.Parser;
 
 
 namespace Expert_System_21
