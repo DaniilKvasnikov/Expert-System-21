@@ -44,7 +44,7 @@ namespace Expert_System_21.Parser
                 Rules.Add(new ESRule(line));
                 _countRule++;
             }
-            if (isMatchFact)
+            else if (isMatchFact)
             {
                 if (_countRule == 0)
                     throw new Exception("Rules not found before facts");
@@ -52,12 +52,15 @@ namespace Expert_System_21.Parser
                 Facts.AddRange(line);
                 _countFact++;
             }
-
-            if (isMatchQuerie)
+            else if (isMatchQuerie)
             {
                 line = line.Replace("?", "");
                 Queries.AddRange(line);
                 _countQuerie++;
+            }
+            else if (line.Length > 0)
+            {
+                throw new Exception(line);
             }
         }
     }

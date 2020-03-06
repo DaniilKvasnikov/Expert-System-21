@@ -82,7 +82,12 @@ namespace Expert_System_21.Notation
 						break;
 					case CharType.StringEnd:
 						while (_stack.Count > 0)
-							result += _stack.Pop();
+						{
+							c = _stack.Pop();
+							if (c == '(')
+								throw new Exception("Error converting string (");
+							result += c;
+						}
 						return result;
 					case CharType.Error:
 						throw new Exception("Error converting string");

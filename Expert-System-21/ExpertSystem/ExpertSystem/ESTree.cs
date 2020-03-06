@@ -26,6 +26,10 @@ namespace Expert_System_21
 
         public ESTree(FileParser parser)
         {
+            if (parser.Rules.Count == 0)
+                throw new Exception("Rules not found");
+            if (parser.Queries.Count == 0)
+                throw new Exception("Queries not found");
             InitAtomsList(parser.Rules);
             SetStateAtoms(parser.Rules, parser.Facts);
             SetAtomsRelations(parser.Rules);
@@ -80,6 +84,8 @@ namespace Expert_System_21
                 else
                 {
                     ConnectorNode newConnector;
+                    if (stack.Count < 2)
+                        throw new Exception(rulesRPN);
                     Node atom1 = stack.Pop();
                     Node atom2 = stack.Pop();
                     if (atom1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom1).Type == ListOperations[ruleRPN])
@@ -125,7 +131,9 @@ namespace Expert_System_21
 
         private void SetAtomState(char atom, bool? state)
         {
-            Node node = _atoms[atom] ?? throw new ArgumentNullException("_atoms[atom]");
+            if (!_atoms.ContainsKey(atom))
+                throw new ArgumentNullException("_atoms[atom]");
+            Node node = _atoms[atom];
             node.SetState(state, state != null && state.Value);
         }
 
@@ -139,7 +147,9 @@ namespace Expert_System_21
 
         public bool? ResolveQuery(char query)
         {
-            var atom = _atoms[query] ?? throw new ArgumentNullException("_atoms[atom]");
+            if (!_atoms.ContainsKey(query))
+                throw new ArgumentNullException("_atoms[atom]");
+            var atom = _atoms[query];
             bool? res = atom.Solve();
             if (res == null)
             {
