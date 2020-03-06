@@ -51,7 +51,9 @@ namespace ExpertSystemTests
 				var inTrue = parser.ExpectedTrueResults.Contains(result.Key);
 				var inFalse = parser.ExpectedFalseResults.Contains(result.Key);
 				if (inTrue || inFalse)
+				{
 					check &= (result.Value == true && inTrue) || (result.Value == false && inFalse);
+				}
 			}
 
 			return check;
