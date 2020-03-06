@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using ExpertSystemTests.ExpertSystem;
 using ExpertSystemTests.ExpertSystem.Log;
-using ExpertSystemTests.MyExtensions;
-using ExpertSystemTests.Notation;
 using ExpertSystemTests.Parser;
 
-namespace ExpertSystemTests
+
+namespace Expert_System_21
 {
-	public class Program
+	public static class Program
 	{
 		public const string ProjectPath = "/home/rrhaenys/RiderProjects/Expert-System-21";
 
-		static void Main()
+		private static void Main()
 		{
 			CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/parenthesis.txt"), true);
 		}
-		
+	
 		public static bool CheckFileParser(string filePath, bool debugMode = false)
 		{
 			try
 			{
-				string[] lines = File.ReadAllLines(filePath);
+				var lines = File.ReadAllLines(filePath);
 				var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
 				var tree = new ESTree(parser);
 				Dictionary<char, bool?> results = tree.ResolveQuerys(parser.Queries);
@@ -45,7 +43,7 @@ namespace ExpertSystemTests
 
 		private static bool CheckResults(Dictionary<char, bool?> results, FileParserWithAnswer parser)
 		{
-			bool check = true;
+			var check = true;
 			foreach (var result in results)
 			{
 				var inTrue = parser.ExpectedTrueResults.Contains(result.Key);
