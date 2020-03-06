@@ -58,7 +58,66 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/_examples/good_files/test_slack2")]
         [TestCase("tests/_examples/good_files/test_slack3")]
         [TestCase("tests/_examples/good_files/test_slack4")]
+        [TestCase("tests/_examples/good_files/AND_LIST")]
+        [TestCase("tests/_examples/good_files/AND_OR")]
+        [TestCase("tests/_examples/good_files/BI_IF")]
+        [TestCase("tests/_examples/good_files/easy_test.txt")]
+        [TestCase("tests/_examples/good_files/empty_init_test.txt")]
+        [TestCase("tests/_examples/good_files/HAfffff_.txt")]
+        [TestCase("tests/_examples/good_files/hard_imply_2.txt")]
+        [TestCase("tests/_examples/good_files/HARDDDDDER_.txt")]
+        [TestCase("tests/_examples/good_files/imply_and.txt")]
+        [TestCase("tests/_examples/good_files/just_a_test.txt")]
+        [TestCase("tests/_examples/good_files/just_a_test2.txt")]
+        [TestCase("tests/_examples/good_files/NEGATION_SIMPLE_1")]
+        [TestCase("tests/_examples/good_files/NEGATION_SIMPLE_3")]
+        [TestCase("tests/_examples/good_files/NEGATION_SIMPLE_4")]
+        [TestCase("tests/_examples/good_files/parentheses_test.txt")]
+        [TestCase("tests/_examples/good_files/test_blyat.txt")]
+        [TestCase("tests/_examples/good_files/test_blyat1.txt")]
+        [TestCase("tests/_examples/good_files/test_neg_3333.txt")]
+        [TestCase("tests/_examples/good_files/test_not")]
+        [TestCase("tests/_examples/good_files/test_parents_priority.txt")]
+        [TestCase("tests/_examples/good_files/test_parents_priority2.txt")]
+        
+        
         public void CheckFileParserDebug(string filePath)
+        {
+            string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
+            var res = Expert_System_21.Program.CheckFileParser(path, true);
+            Assert.True(res);
+        }
+
+        [TestCase("tests/schoolTests/01")]
+        [TestCase("tests/schoolTests/02")]
+        [TestCase("tests/schoolTests/03")]
+        [TestCase("tests/schoolTests/04")]
+        [TestCase("tests/schoolTests/05")]
+        [TestCase("tests/schoolTests/06")]
+        [TestCase("tests/schoolTests/07")]
+        [TestCase("tests/schoolTests/08")]
+        [TestCase("tests/schoolTests/09")]
+        [TestCase("tests/schoolTests/10")]
+        [TestCase("tests/schoolTests/11")]
+        [TestCase("tests/schoolTests/12")]
+        [TestCase("tests/schoolTests/13")]
+        [TestCase("tests/schoolTests/14")]
+        [TestCase("tests/schoolTests/15")]
+        [TestCase("tests/schoolTests/16")]
+        [TestCase("tests/schoolTests/17")]
+        [TestCase("tests/schoolTests/18")]
+        [TestCase("tests/schoolTests/19")]
+        [TestCase("tests/schoolTests/20")]
+        [TestCase("tests/schoolTests/21")]
+        [TestCase("tests/schoolTests/22")]
+        [TestCase("tests/schoolTests/23")]
+        [TestCase("tests/schoolTests/24")]
+        [TestCase("tests/schoolTests/25")]
+        [TestCase("tests/schoolTests/26")]
+        [TestCase("tests/schoolTests/27")]
+        [TestCase("tests/schoolTests/28")]
+        [TestCase("tests/schoolTests/29")]
+        public void SchoolTest(string filePath)
         {
             string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
             var res = Expert_System_21.Program.CheckFileParser(path, false);

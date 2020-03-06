@@ -9,6 +9,4 @@ A + B => I # I is true
 =ABD
 ?CDF
 
-# assertions
-# =ABDHCFI
 #=CDF

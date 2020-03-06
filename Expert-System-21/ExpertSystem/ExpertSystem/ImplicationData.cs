@@ -1,4 +1,5 @@
 ﻿using System;
+using Expert_System_21.Exceptions;
 using Expert_System_21.Nodes;
 
 namespace Expert_System_21
@@ -19,7 +20,7 @@ namespace Expert_System_21
             var leftValidate = _left.Solve();
             var rightValidate = _right.Solve();
             if (leftValidate == true && rightValidate == false)
-                throw new Exception("[Conflict] " + ToString());
+                throw new NodeConflictException("[Conflict] " + ToString());
         }
     }
 }

@@ -10,5 +10,8 @@ A | !C => !D
 =A
 
 ?ABD
+#=AB
+#!=D
 
-# Not that easy because A | !C => !D so D Is false; then D => B, but because the left side is False it doesn't matter
+# Not that easy because A | !C => !D so D Is false;
+# then D => B, but because the left side is False it doesn't matter

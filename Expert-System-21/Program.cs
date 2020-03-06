@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Expert_System_21.Exceptions;
 using Expert_System_21.Parser;
 using ExpertSystemTests.ExpertSystem.Log;
 
@@ -13,7 +14,7 @@ namespace Expert_System_21
 
 		private static void Main()
 		{
-			CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/parenthesis.txt"), true);
+			CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/empty_init_test.txt"), true);
 		}
 	
 		public static bool CheckFileParser(string filePath, bool debugMode = false)
@@ -32,6 +33,11 @@ namespace Expert_System_21
 			{
 				Console.WriteLine("FileNotFoundException: " + filePath);
 				throw new FileNotFoundException("FileNotFoundException", e);
+			}
+			catch (NodeConflictException e)
+			{
+				Console.WriteLine(e);
+				throw new NodeConflictException("FileNotFoundException");
 			}
 			catch (Exception e)
 			{

@@ -11,3 +11,4 @@ E => O
 =DEIJP
 ?AFKP
 # True, true, true, True
+#=AFKP

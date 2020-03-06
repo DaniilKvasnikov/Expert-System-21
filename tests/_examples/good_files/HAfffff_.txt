@@ -11,9 +11,5 @@ N => M
 
 ?AFKP
 # A true, F True, K False , P True
-
-
-
-
-
-
+#=AFP
+#!=K

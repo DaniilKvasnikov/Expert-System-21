@@ -22,3 +22,5 @@ E + F => !V		# E and F implies not V
 # G is False
 # V is True
 # X is True [True, True, True]
+#=VX
+#!=G

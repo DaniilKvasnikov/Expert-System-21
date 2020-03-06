@@ -18,6 +18,7 @@ E + F => !V		# E and F implies not V
 				# by a newline is used
 
 ?GVBX			# Queries : What are G, V and X ?
+#=GVXB
 
 # G = True
 # V = True

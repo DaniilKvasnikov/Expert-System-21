@@ -38,6 +38,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ExpertSystem\Exceptions\NodeConflictException.cs" />
         <Compile Include="ExpertSystem\ExpertSystem\ESRule.cs" />
         <Compile Include="ExpertSystem\ExpertSystem\ESTree.cs" />
         <Compile Include="ExpertSystem\ExpertSystem\ImplicationData.cs" />
