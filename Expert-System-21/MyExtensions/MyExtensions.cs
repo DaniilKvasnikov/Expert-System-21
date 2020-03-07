@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.Msagl.Drawing;
 
 namespace Expert_System_21.MyExtensions
 {
@@ -27,6 +28,13 @@ namespace Expert_System_21.MyExtensions
         public static string ReplaceOneOf(this string input, string oldValues, string newValue)
         {
             return oldValues.Aggregate(input, (current, oldValue) => current.Replace(oldValue.ToString(), newValue));
+        }
+
+        public static NodeAttr Copy(this NodeAttr attr, NodeAttr newAttr)
+        {
+            attr.Shape = newAttr.Shape;
+            attr.Color = newAttr.Color;
+            return attr;
         }
     }
 }

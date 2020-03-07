@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using Expert_System_21.Forms;
 using Expert_System_21.Parser;
+using Expert_System_21.Visualizer;
 using ExpertSystemTests.ExpertSystem.Log;
-using Microsoft.Msagl.Core.Layout;
 
 
 namespace Expert_System_21

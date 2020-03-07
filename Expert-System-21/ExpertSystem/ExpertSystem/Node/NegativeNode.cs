@@ -27,11 +27,12 @@ namespace Expert_System_21.Nodes
         
         public override string ToString()
         {
-            string str = "!";
+            string str = "!(";
             foreach (var operand in Children)
             {
                 str += operand.ToString();
             }
+            str += ")";
             return str;
         }
     }

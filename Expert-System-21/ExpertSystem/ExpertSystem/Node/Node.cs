@@ -6,8 +6,8 @@ namespace Expert_System_21.Nodes
 {
     public class Node
     {
-        public ArrayList Children { get; } = new ArrayList();
-        public ArrayList OperandParents { get; } = new ArrayList();
+        public List<Node> Children { get; } = new List<Node>();
+        public List<Node> OperandParents { get; } = new List<Node>();
         public bool Visited;
         protected bool? State;
         private bool _stateFixed;
@@ -75,7 +75,7 @@ namespace Expert_System_21.Nodes
             return state;
         }
 
-        private (List<bool?> fixedRet, List<bool?> unfixedRet) SolveGroupedNode(ArrayList nodes, bool checkingParents)
+        private (List<bool?> fixedRet, List<bool?> unfixedRet) SolveGroupedNode(List<Node> nodes, bool checkingParents)
         {
             Visited = true;
 
