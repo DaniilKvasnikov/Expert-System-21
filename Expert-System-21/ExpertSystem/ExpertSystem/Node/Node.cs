@@ -7,8 +7,8 @@ namespace Expert_System_21.Nodes
     public class Node
     {
         public ArrayList Children { get; } = new ArrayList();
-        public readonly ArrayList OperandParents = new ArrayList();
-        protected bool Visited;
+        public ArrayList OperandParents { get; } = new ArrayList();
+        public bool Visited;
         protected bool? State;
         private bool _stateFixed;
 

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Expert_System_21.Forms;
 using Expert_System_21.Parser;
 using ExpertSystemTests.ExpertSystem.Log;
+using Microsoft.Msagl.Core.Layout;
 
 
 namespace Expert_System_21
@@ -17,7 +18,7 @@ namespace Expert_System_21
 		{
 			try
 			{
-				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/and.txt"), true);
+				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/raise_me_daddy.txt"), true, true);
 			}
 			catch (Exception e)
 			{
@@ -26,7 +27,7 @@ namespace Expert_System_21
 			}
 		}
 	
-		public static bool CheckFileParser(string filePath, bool debugMode = false)
+		public static bool CheckFileParser(string filePath, bool debugMode = false, bool graphVisualise = false)
 		{
 			var lines = File.ReadAllLines(filePath);
 			var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
@@ -34,7 +35,11 @@ namespace Expert_System_21
 			Dictionary<char, bool?> results = tree.ResolveQuerys(parser.Queries);
 			bool result = !debugMode || CheckResults(results, (FileParserWithAnswer) parser);
 			Log.PrintResults(results, result);
-			var graph = new PraphVisualizer(tree, results);
+			if (graphVisualise)
+			{
+				var graph = new PraphVisualizer(tree, results);
+			}
+
 			return result;
 		}
 

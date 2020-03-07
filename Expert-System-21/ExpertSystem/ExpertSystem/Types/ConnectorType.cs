@@ -2,9 +2,9 @@
 {
     public enum ConnectorType
     {
-        OR,
-        AND,
-        XOR,
-        IMPLY,
+        OR = '|',
+        AND = '+',
+        XOR = '^',
+        IMPLY = '=',
     }
 }
