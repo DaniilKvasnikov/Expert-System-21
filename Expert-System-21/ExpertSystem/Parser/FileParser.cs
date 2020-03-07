@@ -54,6 +54,8 @@ namespace Expert_System_21.Parser
             }
             else if (isMatchQuerie)
             {
+                if (_countFact == 0)
+                    throw new Exception("Fact not found before queries");
                 line = line.Replace("?", "");
                 Queries.AddRange(line);
                 _countQuerie++;

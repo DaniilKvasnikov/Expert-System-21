@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Expert_System_21.Type;
 
@@ -29,6 +30,9 @@ namespace Expert_System_21.Nodes
 
         public virtual void SetState(bool? status, bool isFixed)
         {
+            if (_stateFixed && isFixed && State != null && State != status)
+                throw new Exception("[Conflict] " + ToString() + " two different states");
+            
             State = status;
             _stateFixed = isFixed;
         }

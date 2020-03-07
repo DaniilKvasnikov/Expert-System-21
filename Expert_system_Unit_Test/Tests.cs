@@ -79,6 +79,7 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/_examples/good_files/test_not")]
         [TestCase("tests/_examples/good_files/test_parents_priority.txt")]
         [TestCase("tests/_examples/good_files/test_parents_priority2.txt")]
+        [TestCase("tests/_examples/bad_files/INVALID_FOR_TESTS_2")]
         
         
         public void CheckFileParserDebug(string filePath)

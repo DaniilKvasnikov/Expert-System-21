@@ -16,7 +16,7 @@ namespace Expert_System_21
 		{
 			try
 			{
-				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/good_files/raise_me_daddy.txt"), true, true);
+				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/bad_files/INVALID_FOR_TESTS_2"), true, true);
 			}
 			catch (Exception e)
 			{
@@ -35,7 +35,7 @@ namespace Expert_System_21
 			Log.PrintResults(results, result);
 			if (graphVisualise)
 			{
-				var graph = new PraphVisualizer(tree, results);
+				PraphVisualizer visualizer = new PraphVisualizer(tree, results);
 			}
 
 			return result;

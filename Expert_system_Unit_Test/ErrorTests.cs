@@ -65,7 +65,6 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/_examples/bad_files/empty_file_test.txt")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/invalid_chars_test.txt")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/INVALID_FOR_TESTS_1")]
-        [TestCase(typeof(Exception), "tests/_examples/bad_files/INVALID_FOR_TESTS_2")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/nl")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/no_init_test.txt")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/no_query_test.txt")]
