@@ -9,7 +9,7 @@ namespace Expert_System_21.Nodes
         public List<Node> Children { get; } = new List<Node>();
         public List<Node> OperandParents { get; } = new List<Node>();
         public bool Visited;
-        protected bool? State;
+        public bool? State { get; protected set; }
         private bool _stateFixed;
 
         public bool StateFixed => _stateFixed;

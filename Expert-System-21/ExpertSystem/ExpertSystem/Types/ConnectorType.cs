@@ -3,7 +3,7 @@
     public enum ConnectorType
     {
         OR = '|',
-        AND = '+',
+        AND = '&',
         XOR = '^',
         IMPLY = '=',
     }

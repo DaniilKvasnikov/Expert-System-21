@@ -34,6 +34,7 @@ namespace Expert_System_21.MyExtensions
         {
             attr.Shape = newAttr.Shape;
             attr.Color = newAttr.Color;
+            attr.FillColor = newAttr.FillColor;
             return attr;
         }
     }

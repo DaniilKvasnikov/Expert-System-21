@@ -12,10 +12,13 @@ namespace Expert_System_21.Visualizer
     {
         private readonly Dictionary<System.Type, NodeInfoVisualise> _nodeInfoVisualises = new Dictionary<System.Type, NodeInfoVisualise>()
         {
-            {typeof(AtomNode), new NodeInfoVisualise(Color.Green, Shape.Circle)},
-            {typeof(ConnectorNode), new NodeInfoVisualise(Color.Red, Shape.Diamond)},
-            {typeof(NegativeNode), new NodeInfoVisualise(Color.Blue, Shape.Box)},
+            {typeof(AtomNode), new NodeInfoVisualise(Shape.Circle)},
+            {typeof(ConnectorNode), new NodeInfoVisualise(Shape.Diamond)},
+            {typeof(NegativeNode), new NodeInfoVisualise(Shape.Box)},
         };
+        
+        private Color TrueStateColor = Color.Green;
+        private Color FalseStateColor = Color.Red;
 
         private NodeInfoVisualise DefaultNodeInfo { get; } = new NodeInfoVisualise(Color.Black, Shape.Circle);
         private readonly Dictionary<string, Microsoft.Msagl.Drawing.Node> _nodes = new Dictionary<string, Microsoft.Msagl.Drawing.Node>();
@@ -63,6 +66,15 @@ namespace Expert_System_21.Visualizer
             NodeInfoVisualise nodeInfoVisualise = DefaultNodeInfo;
             if (_nodeInfoVisualises.ContainsKey(node.GetType()))
                 nodeInfoVisualise = _nodeInfoVisualises[node.GetType()];
+            switch (node.State)
+            {
+                case true:
+                    nodeInfoVisualise.FillColor = TrueStateColor;
+                    break;
+                case false:
+                    nodeInfoVisualise.FillColor = FalseStateColor;
+                    break;
+            }
             return AddNode(graph, name, nodeInfoVisualise);
         }
 

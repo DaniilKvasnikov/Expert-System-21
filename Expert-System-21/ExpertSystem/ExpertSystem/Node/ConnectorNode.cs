@@ -97,7 +97,7 @@ namespace Expert_System_21.Nodes
             string str = "";
             str = string.Join(((char) Type).ToString(), Operands);
             if (Type == ConnectorType.IMPLY)
-                str += "=>";
+                str += (char) Type;
             return str;
         }
     }
