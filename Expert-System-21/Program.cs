@@ -17,11 +17,35 @@ namespace Expert_System_21
 		{
 			try
 			{
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new MainForm());
-				
 				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/bad_files/no_init_test.txt"), true);
+				
+				//create a form 
+				Form form = new Form();
+				//create a viewer object 
+				Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
+				//create a graph object 
+				Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+				
+				//create the graph content 
+				graph.AddEdge("A", "B");
+				graph.AddEdge("B", "C");
+				graph.AddEdge("A", "C").Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
+				graph.FindNode("A").Attr.FillColor = Microsoft.Msagl.Drawing.Color.Magenta;
+				graph.FindNode("B").Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
+				
+				Microsoft.Msagl.Drawing.Node c = graph.FindNode("C");
+				c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.PaleGreen;
+				c.Attr.Shape = Microsoft.Msagl.Drawing.Shape.Diamond;
+				
+				//bind the graph to the viewer 
+				viewer.Graph = graph;
+				//associate the viewer with the form 
+				form.SuspendLayout();
+				viewer.Dock = System.Windows.Forms.DockStyle.Fill;
+				form.Controls.Add(viewer);
+				form.ResumeLayout();
+				//show the form 
+				form.ShowDialog();
 			}
 			catch (Exception e)
 			{
