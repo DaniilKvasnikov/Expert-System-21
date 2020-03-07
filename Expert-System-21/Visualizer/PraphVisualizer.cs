@@ -32,6 +32,7 @@ namespace Expert_System_21.Visualizer
             viewer.Graph = graph;
             form.SuspendLayout();
             viewer.Dock = DockStyle.Fill;
+            viewer.ToolBarIsVisible = false;
             form.Controls.Add(viewer);
             form.ResumeLayout();
             form.ShowDialog();
@@ -95,7 +96,9 @@ namespace Expert_System_21.Visualizer
         {
             if (graph.Edges.Any(edge => edge.Source == source.Id && edge.Target == target.Id))
                 return;
-            graph.AddEdge(source.Id, target.Id);
+            var newEdge = graph.AddEdge(source.Id, target.Id);
+            newEdge.Attr.ArrowheadAtTarget  = ArrowStyle.None;
+            newEdge.Attr.ArrowheadAtSource  = ArrowStyle.Normal;
         }
     }
 }
