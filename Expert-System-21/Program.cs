@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
+using Expert_System_21.Forms;
 using Expert_System_21.Parser;
 using ExpertSystemTests.ExpertSystem.Log;
 
@@ -9,12 +11,16 @@ namespace Expert_System_21
 {
 	public static class Program
 	{
-		public const string ProjectPath = "/home/rrhaenys/RiderProjects/Expert-System-21";
+		public const string ProjectPath = @"C:\Users\dima6\RiderProjects\Expert-System-21";
 
 		private static void Main()
 		{
 			try
 			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				Application.Run(new MainForm());
+				
 				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/bad_files/no_init_test.txt"), true);
 			}
 			catch (Exception e)
