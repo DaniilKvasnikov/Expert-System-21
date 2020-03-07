@@ -20,9 +20,9 @@ namespace Expert_System_21
             ['^'] = ConnectorType.XOR,
         };
 
-        private readonly Dictionary<char, AtomNode> _atoms = new Dictionary<char, AtomNode>();
-        private readonly Stack<ConnectorNode> _connectors = new Stack<ConnectorNode>();
-        private readonly List<ImplicationData> _implication = new List<ImplicationData>();
+        public Dictionary<char, AtomNode> Atoms { get; } = new Dictionary<char, AtomNode>();
+        public Stack<ConnectorNode> Connectors { get; } = new Stack<ConnectorNode>();
+        public List<ImplicationData> Implication { get; } = new List<ImplicationData>();
 
         public ESTree(FileParser parser)
         {
@@ -48,7 +48,7 @@ namespace Expert_System_21
 
         private void SetAtomsRelations(ArrayList rules)
         {
-            if (_atoms.Count == 0)
+            if (Atoms.Count == 0)
                 throw new Exception("Atoms not found!");
             foreach (ESRule rule in rules)
             {
@@ -58,12 +58,12 @@ namespace Expert_System_21
                 var connectorImply = new ConnectorNode(ConnectorType.IMPLY);
                 right.AddChildren(connectorImply);
                 connectorImply.AddOperand(left);
-                _implication.Add(new ImplicationData(left, right));
+                Implication.Add(new ImplicationData(left, right));
                 if (rule.Type != ImplicationType.EQUAL) continue;
                 var connectorEqual = new ConnectorNode(ConnectorType.IMPLY);
                 left.AddChildren(connectorEqual);
                 connectorEqual.AddOperand(right);
-                _implication.Add(new ImplicationData(right, left));
+                Implication.Add(new ImplicationData(right, left));
             }
         }
 
@@ -75,7 +75,7 @@ namespace Expert_System_21
             {
                 if (!Operators.Contains(ruleRPN))
                 {
-                    stack.Push(_atoms[ruleRPN]);
+                    stack.Push(Atoms[ruleRPN]);
                 }
                 else if (ruleRPN == '!')
                 {
@@ -92,20 +92,20 @@ namespace Expert_System_21
                     {
                         ((ConnectorNode) atom1).AddOperand(atom2);
                         newConnector = (ConnectorNode) atom1;
-                        _connectors.Pop();
+                        Connectors.Pop();
                     }
                     else if (atom2.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom2).Type == ListOperations[ruleRPN])
                     {
                         ((ConnectorNode) atom2).AddOperand(atom1);
                         newConnector = (ConnectorNode) atom2;
-                        _connectors.Pop();
+                        Connectors.Pop();
                     }
                     else
                     {
                         newConnector = new ConnectorNode(ListOperations[ruleRPN]);
                         newConnector.AddOperands(new[]{atom1, atom2});
                     }
-                    _connectors.Push(newConnector);
+                    Connectors.Push(newConnector);
                     stack.Push(newConnector);
                 }
             }
@@ -131,25 +131,25 @@ namespace Expert_System_21
 
         private void SetAtomState(char atom, bool? state)
         {
-            if (!_atoms.ContainsKey(atom))
+            if (!Atoms.ContainsKey(atom))
                 throw new ArgumentNullException("_atoms[atom]");
-            Node node = _atoms[atom];
+            Node node = Atoms[atom];
             node.SetState(state, state != null && state.Value);
         }
 
         private void AddNewAtomsNode(List<char> newAtoms)
         {
-            foreach (var atom in newAtoms.Where(atom => !_atoms.ContainsKey(atom)))
+            foreach (var atom in newAtoms.Where(atom => !Atoms.ContainsKey(atom)))
             {
-                _atoms.Add(atom, new AtomNode());
+                Atoms.Add(atom, new AtomNode(atom.ToString()));
             }
         }
 
         public bool? ResolveQuery(char query)
         {
-            if (!_atoms.ContainsKey(query))
+            if (!Atoms.ContainsKey(query))
                 throw new ArgumentNullException("_atoms[atom]");
-            var atom = _atoms[query];
+            var atom = Atoms[query];
             bool? res = atom.Solve();
             if (res == null)
             {
@@ -163,7 +163,7 @@ namespace Expert_System_21
 
         private void CheckErrors()
         {
-            foreach (var i in _implication)
+            foreach (var i in Implication)
             {
                 i.Validate();
             }

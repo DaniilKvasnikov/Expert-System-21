@@ -24,5 +24,15 @@ namespace Expert_System_21.Nodes
             base.SetState(status, isFixed);
             ((Node)Children[0]).SetState(!status, isFixed);
         }
+        
+        public override string ToString()
+        {
+            string str = "!";
+            foreach (var operand in Children)
+            {
+                str += operand.ToString();
+            }
+            return str;
+        }
     }
 }

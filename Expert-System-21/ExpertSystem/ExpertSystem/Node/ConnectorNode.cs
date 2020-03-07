@@ -90,5 +90,30 @@ namespace Expert_System_21.Nodes
 
             return base.Solve();
         }
+
+        public override string ToString()
+        {
+            string str = "";
+            switch (Type)
+            {
+                case ConnectorType.OR:
+                    str += "|";
+                    break;
+                case ConnectorType.AND:
+                    str += "+";
+                    break;
+                case ConnectorType.XOR:
+                    str += "^";
+                    break;
+                case ConnectorType.IMPLY:
+                    str += "=>";
+                    break;
+            }
+            foreach (var operand in Operands)
+            {
+                str += operand.ToString();
+            }
+            return str;
+        }
     }
 }

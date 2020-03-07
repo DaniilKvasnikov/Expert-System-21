@@ -66,6 +66,7 @@
         <Compile Include="ExpertSystem\Parser\FileParserWithAnswer.cs" />
         <Compile Include="Forms\MainForm.cs" />
         <Compile Include="MyExtensions\MyExtensions.cs" />
+        <Compile Include="PraphVisualizer.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

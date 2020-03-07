@@ -5,19 +5,19 @@ namespace Expert_System_21
 {
     public class ImplicationData
     {
-        private readonly Node _left;
-        private readonly Node _right;
+        public Node Left { get; }
+        public Node Right { get; }
 
         public ImplicationData(Node left, Node right)
         {
-            _left = left;
-            _right = right;
+            Left = left;
+            Right = right;
         }
 
         public void Validate()
         {
-            var leftValidate = _left.Solve();
-            var rightValidate = _right.Solve();
+            var leftValidate = Left.Solve();
+            var rightValidate = Right.Solve();
             if (leftValidate == true && rightValidate == false)
                 throw new Exception("[Conflict] " + ToString());
         }
