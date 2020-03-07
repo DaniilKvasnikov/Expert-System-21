@@ -32,6 +32,10 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="CommandLine, Version=2.7.82.0, Culture=neutral, PublicKeyToken=5a870481e358d379">
+          <HintPath>..\packages\CommandLineParser.2.7.82\lib\net461\CommandLine.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="Microsoft.Msagl, Version=3.0.0.0, Culture=neutral, PublicKeyToken=640c57aa40e7ae7d">
           <HintPath>..\packages\Microsoft.Msagl.1.1.3\lib\net40\Microsoft.Msagl.dll</HintPath>
           <Private>True</Private>
@@ -66,6 +70,7 @@
         <Compile Include="ExpertSystem\Parser\FileParserWithAnswer.cs" />
         <Compile Include="Forms\MainForm.cs" />
         <Compile Include="MyExtensions\MyExtensions.cs" />
+        <Compile Include="Options.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Visualizer\NodeInfoVisualise.cs" />

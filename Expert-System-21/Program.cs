@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CommandLine;
 using Expert_System_21.Parser;
 using Expert_System_21.Visualizer;
 using ExpertSystemTests.ExpertSystem.Log;
@@ -12,11 +13,14 @@ namespace Expert_System_21
 	{
 		public const string ProjectPath = @"C:\Users\dima6\RiderProjects\Expert-System-21";
 
-		private static void Main()
+		private static void Main(string[] args)
 		{
 			try
 			{
-				CheckFileParser(Path.Combine(ProjectPath, "tests/_examples/bad_files/INVALID_FOR_TESTS_2"), true, true);
+				CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
+				{
+					CheckFileParser(Path.Combine(ProjectPath, options.FileName), options.DebugMode, options.Visualisation);
+				});
 			}
 			catch (Exception e)
 			{
