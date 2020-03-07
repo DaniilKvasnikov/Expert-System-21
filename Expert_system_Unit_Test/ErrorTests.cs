@@ -94,15 +94,10 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/_examples/bad_files/xor1.txt")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/xor2.txt")]
         [TestCase(typeof(Exception), "tests/_examples/bad_files/xor3.txt")]
+        [TestCase(typeof(Exception), "tests/schoolTests/30")]
+        [TestCase(typeof(Exception), "tests/schoolTests/31")]
         
-        public void RunErrorFileNotFoundException(Type expectedExceptionType, string filePath)
-        {
-            Assert.Throws(expectedExceptionType, () =>
-                {
-                    string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
-                    var res = Expert_System_21.Program.CheckFileParser(path);
-                }
-                );
-        }
+        public void RunErrorFileNotFoundException(Type expectedExceptionType, string filePath) =>
+            Assert.Throws(expectedExceptionType, () => Expert_System_21.Program.CheckFileParser(Path.Combine(Expert_System_21.Program.ProjectPath, filePath)));
     }
 }
