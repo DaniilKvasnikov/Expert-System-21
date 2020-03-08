@@ -17,13 +17,13 @@ namespace Expert_System_21
 			{
 				CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
 				{
+					if (options.FileName == null) throw new Exception("Use -f file_name");
 					CheckFileParser(options.FileName, options.DebugMode, options.Visualisation);
 				});
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
-				throw;
+				Console.WriteLine(e.Message);
 			}
 		}
 	
