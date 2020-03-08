@@ -11,7 +11,7 @@ namespace Expert_System_21
 {
 	public static class Program
 	{
-		public const string ProjectPath = @"C:\Users\dima6\RiderProjects\Expert-System-21";
+		public const string ProjectPath = @"C:\Users\Андрей\RiderProjects\Expert-System-21";
 
 		private static void Main(string[] args)
 		{
