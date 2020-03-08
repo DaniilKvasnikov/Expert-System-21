@@ -97,7 +97,11 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/schoolTests/30")]
         [TestCase(typeof(Exception), "tests/schoolTests/31")]
         
-        public void RunErrorFileNotFoundException(Type expectedExceptionType, string filePath) =>
-            Assert.Throws(expectedExceptionType, () => Expert_System_21.Program.CheckFileParser(Path.Combine(Expert_System_21.Program.ProjectPath, filePath)));
+        public void RunErrorException(Type expectedExceptionType, string filePath)
+        {
+            string ProjectPath = TestContext.CurrentContext.TestDirectory;
+            Assert.Throws(expectedExceptionType,
+                () => Expert_System_21.Program.CheckFileParser(filePath));
+        }
     }
 }

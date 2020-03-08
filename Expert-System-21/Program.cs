@@ -11,15 +11,13 @@ namespace Expert_System_21
 {
 	public static class Program
 	{
-		public const string ProjectPath = @"C:\Users\Андрей\RiderProjects\Expert-System-21";
-
 		private static void Main(string[] args)
 		{
 			try
 			{
 				CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
 				{
-					CheckFileParser(Path.Combine(ProjectPath, options.FileName), options.DebugMode, options.Visualisation);
+					CheckFileParser(options.FileName, options.DebugMode, options.Visualisation);
 				});
 			}
 			catch (Exception e)

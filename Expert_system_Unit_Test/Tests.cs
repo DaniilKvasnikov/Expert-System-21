@@ -84,8 +84,7 @@ namespace Expert_system_Unit_Test
         
         public void CheckFileParserDebug(string filePath)
         {
-            string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
-            var res = Expert_System_21.Program.CheckFileParser(path, true);
+            var res = Expert_System_21.Program.CheckFileParser(filePath, true);
             Assert.True(res);
         }
 
@@ -120,8 +119,7 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/schoolTests/29")]
         public void SchoolTest(string filePath)
         {
-            string path = Path.Combine(Expert_System_21.Program.ProjectPath, filePath);
-            var res = Expert_System_21.Program.CheckFileParser(path, false);
+            var res = Expert_System_21.Program.CheckFileParser(filePath, false);
             Assert.True(res);
         }
     }
