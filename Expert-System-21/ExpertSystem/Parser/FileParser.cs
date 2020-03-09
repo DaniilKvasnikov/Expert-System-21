@@ -23,6 +23,7 @@ namespace Expert_System_21.Parser
         
         public FileParser(IEnumerable<string> lines)
         {
+            if (lines == null) throw new Exception("lines must be not null!");
             foreach (var line in lines)
             {
                 AddExpectedResult(line);

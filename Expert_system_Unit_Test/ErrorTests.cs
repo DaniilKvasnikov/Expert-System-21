@@ -96,6 +96,7 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/_examples/bad_files/xor3.txt")]
         [TestCase(typeof(Exception), "tests/schoolTests/30")]
         [TestCase(typeof(Exception), "tests/schoolTests/31")]
+        [TestCase(typeof(Exception), null)]
         
         public void RunErrorException(Type expectedExceptionType, string filePath)
         {

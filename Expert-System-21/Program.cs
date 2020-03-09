@@ -17,7 +17,6 @@ namespace Expert_System_21
 			{
 				CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
 				{
-					if (options.FileName == null) throw new Exception("Use -f file_name");
 					CheckFileParser(options.FileName, options.DebugMode, options.Visualisation);
 				});
 			}
@@ -29,6 +28,7 @@ namespace Expert_System_21
 	
 		public static bool CheckFileParser(string filePath, bool debugMode = false, bool graphVisualise = false)
 		{
+			if (filePath == null) throw new Exception("filePath must be not null!");
 			var lines = File.ReadAllLines(filePath);
 			var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
 			var tree = new ESTree(parser);
