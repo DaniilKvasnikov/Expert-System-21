@@ -9,7 +9,7 @@ using Expert_System_21.Type;
 
 namespace Expert_System_21
 {
-    public class ESTree
+    public class ExpertSystemTree
     {
         private static readonly List<char> Operators = new List<char>(){'!', '+', '|', '^', '(', ')'};
 
@@ -24,12 +24,8 @@ namespace Expert_System_21
         public Stack<ConnectorNode> Connectors { get; } = new Stack<ConnectorNode>();
         public List<ImplicationData> Implication { get; } = new List<ImplicationData>();
 
-        public ESTree(FileParser parser)
+        public ExpertSystemTree(FileParser parser)
         {
-            if (parser.Rules.Count == 0)
-                throw new Exception("Rules not found");
-            if (parser.Queries.Count == 0)
-                throw new Exception("Queries not found");
             InitAtomsList(parser.Rules);
             SetStateAtoms(parser.Rules, parser.Facts);
             SetAtomsRelations(parser.Rules);
@@ -37,7 +33,7 @@ namespace Expert_System_21
 
         private void InitAtomsList(ArrayList rules)
         {
-            foreach (ESRule rule in rules)
+            foreach (ExpertSystemRule rule in rules)
             {
                 var allAtoms = new List<char>();
                 allAtoms.AddRange(rule.GetAtomsPart(rule.NpiLeft));
@@ -48,9 +44,7 @@ namespace Expert_System_21
 
         private void SetAtomsRelations(ArrayList rules)
         {
-            if (Atoms.Count == 0)
-                throw new Exception("Atoms not found!");
-            foreach (ESRule rule in rules)
+            foreach (ExpertSystemRule rule in rules)
             {
                 Node left = SetAtomRelationsFromRPN(rule.NpiLeft);
                 Node right = SetAtomRelationsFromRPN(rule.NpiRight);
@@ -84,8 +78,6 @@ namespace Expert_System_21
                 else
                 {
                     ConnectorNode newConnector;
-                    if (stack.Count < 2)
-                        throw new Exception(rulesRPN);
                     Node atom1 = stack.Pop();
                     Node atom2 = stack.Pop();
                     if (atom1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom1).Type == ListOperations[ruleRPN])
@@ -116,7 +108,7 @@ namespace Expert_System_21
         private void SetStateAtoms(ArrayList rules, List<char> trueFacts)
         {
             var nullStateAtoms = new List<char>();
-            foreach (ESRule rule in rules)
+            foreach (ExpertSystemRule rule in rules)
             {
                 nullStateAtoms.AddRange(rule.GetAtomsPart(rule.NpiRight));
                 if (rule.Type == ImplicationType.EQUAL)

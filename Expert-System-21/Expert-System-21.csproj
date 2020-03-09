@@ -60,19 +60,19 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ExpertSystem\ExpertSystem\ESRule.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\ESTree.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\ImplicationData.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Node\AtomNode.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Node\ConnectorNode.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Node\NegativeNode.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Node\Node.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Types\ConnectorType.cs" />
-        <Compile Include="ExpertSystem\ExpertSystem\Types\ImplicationType.cs" />
-        <Compile Include="ExpertSystem\Log\Log.cs" />
-        <Compile Include="ExpertSystem\Notation\ReversePolishNotation.cs" />
-        <Compile Include="ExpertSystem\Parser\FileParser.cs" />
-        <Compile Include="ExpertSystem\Parser\FileParserWithAnswer.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\ExpertSystemRule.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\ExpertSystemTree.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\ImplicationData.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Node\AtomNode.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Node\ConnectorNode.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Node\NegativeNode.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Node\Node.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Types\ConnectorType.cs" />
+        <Compile Include="Expert_System_21\ExpertSystem\Types\ImplicationType.cs" />
+        <Compile Include="Expert_System_21\Logs\LogResult.cs" />
+        <Compile Include="Expert_System_21\Notation\ReversePolishNotation.cs" />
+        <Compile Include="Expert_System_21\Parser\FileParser.cs" />
+        <Compile Include="Expert_System_21\Parser\FileParserWithAnswer.cs" />
         <Compile Include="Forms\MainForm.cs" />
         <Compile Include="MyExtensions\MyExtensions.cs" />
         <Compile Include="Options.cs" />

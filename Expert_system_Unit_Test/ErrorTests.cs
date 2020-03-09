@@ -100,7 +100,6 @@ namespace Expert_system_Unit_Test
         
         public void RunErrorException(Type expectedExceptionType, string filePath)
         {
-            string ProjectPath = TestContext.CurrentContext.TestDirectory;
             Assert.Throws(expectedExceptionType,
                 () => Expert_System_21.Program.CheckFileParser(filePath));
         }

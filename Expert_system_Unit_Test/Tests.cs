@@ -1,5 +1,4 @@
-﻿using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
 {
@@ -119,7 +118,7 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/schoolTests/29")]
         public void SchoolTest(string filePath)
         {
-            var res = Expert_System_21.Program.CheckFileParser(filePath, false);
+            var res = Expert_System_21.Program.CheckFileParser(filePath);
             Assert.True(res);
         }
     }

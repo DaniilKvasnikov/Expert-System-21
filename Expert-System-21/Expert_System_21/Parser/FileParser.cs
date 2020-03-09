@@ -28,6 +28,7 @@ namespace Expert_System_21.Parser
             {
                 AddExpectedResult(line);
             }
+            if (_countQuerie == 0) throw new Exception("Queries not found");
         }
 
         private void AddExpectedResult(string line)
@@ -38,11 +39,11 @@ namespace Expert_System_21.Parser
             bool isMatchRule = Regex.IsMatch(line, PatternRule);
             if (isMatchRule)
             {
-                if (_countFact > 0)
-                    throw new Exception("Facts must come after rules");
                 if (_countQuerie > 0)
                     throw new Exception("Queries must come after rules");
-                Rules.Add(new ESRule(line));
+                if (_countFact > 0)
+                    throw new Exception("Facts must come after rules");
+                Rules.Add(new ExpertSystemRule(line));
                 _countRule++;
             }
             else if (isMatchFact)

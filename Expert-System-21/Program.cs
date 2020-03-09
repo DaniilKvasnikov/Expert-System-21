@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using CommandLine;
+using Expert_System_21.Logs;
 using Expert_System_21.Parser;
 using Expert_System_21.Visualizer;
-using ExpertSystemTests.ExpertSystem.Log;
 
 
 namespace Expert_System_21
@@ -31,13 +31,13 @@ namespace Expert_System_21
 			if (filePath == null) throw new Exception("filePath must be not null!");
 			var lines = File.ReadAllLines(filePath);
 			var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);
-			var tree = new ESTree(parser);
+			var tree = new ExpertSystemTree(parser);
 			Dictionary<char, bool?> results = tree.ResolveQuerys(parser.Queries);
 			bool result = !debugMode || CheckResults(results, (FileParserWithAnswer) parser);
-			Log.PrintResults(results, result);
+			LogResult.PrintResults(results, result);
 			if (graphVisualise)
 			{
-				PraphVisualizer visualizer = new PraphVisualizer(tree, results);
+				new PraphVisualizer(tree);
 			}
 
 			return result;

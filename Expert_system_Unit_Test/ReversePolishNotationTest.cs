@@ -1,5 +1,4 @@
-﻿using System;
-using Expert_System_21.MyExtensions;
+﻿using Expert_System_21.MyExtensions;
 using Expert_System_21.Notation;
 using NUnit.Framework;
 
@@ -40,7 +39,7 @@ namespace Expert_system_Unit_Test
         public void TestGetType(char c, CharType type)
         {
             var notation = new ReversePolishNotation();
-            Assert.True(string.Equals(notation.GetType(c), type));
+            Assert.True(Equals(notation.GetType(c), type));
         }
 
     }

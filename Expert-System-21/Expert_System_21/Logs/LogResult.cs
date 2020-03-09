@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace ExpertSystemTests.ExpertSystem.Log
+namespace Expert_System_21.Logs
 {
-    public static class Log
+    public class LogResult
     {
         public static void PrintResults(Dictionary<char, bool?> results, bool check)
         {
@@ -11,7 +11,7 @@ namespace ExpertSystemTests.ExpertSystem.Log
                 Console.WriteLine(result.Key + " : " + result.Value);
             Console.ForegroundColor = check ? ConsoleColor.Green : ConsoleColor.Red;
             Console.WriteLine(check + ". The end!");
-            Console.ResetColor();;
+            Console.ResetColor();
         }
     }
 }

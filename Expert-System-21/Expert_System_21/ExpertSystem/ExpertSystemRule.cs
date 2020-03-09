@@ -7,17 +7,16 @@ using Expert_System_21.Type;
 
 namespace Expert_System_21.ExpertSystem
 {
-    public class ESRule
+    public class ExpertSystemRule
     {
         public ImplicationType Type { get; }
         public string NpiLeft { get; }
         public string NpiRight { get; }
 
-        readonly ReversePolishNotation notation;
-        public ESRule(string line)
+        public ExpertSystemRule(string line)
         {
             Type = line.Contains("<=>") ? ImplicationType.EQUAL : ImplicationType.IMPLY;
-            notation = new ReversePolishNotation();
+            var notation = new ReversePolishNotation();
             string[] separator = new[] {"=>", "<=>"};
             var lines = line.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (lines.Length != 2)

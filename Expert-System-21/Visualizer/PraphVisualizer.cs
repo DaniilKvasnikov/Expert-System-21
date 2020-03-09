@@ -22,7 +22,7 @@ namespace Expert_System_21.Visualizer
 
         private NodeInfoVisualise DefaultNodeInfo { get; } = new NodeInfoVisualise(Color.Black, Shape.Circle);
         private readonly Dictionary<string, Microsoft.Msagl.Drawing.Node> _nodes = new Dictionary<string, Microsoft.Msagl.Drawing.Node>();
-        public PraphVisualizer(ESTree tree, Dictionary<char, bool?> result)
+        public PraphVisualizer(ExpertSystemTree tree)
         {
             Form form = new Form();
             Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
