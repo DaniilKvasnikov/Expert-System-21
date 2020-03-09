@@ -6,10 +6,10 @@ namespace Expert_system_Unit_Test
     [TestFixture]
     public class GraphVisualizerTest
     {
-        [TestCase("tests/schoolTests/01")]
+        [TestCase("tests/_examples/good_files/and.txt")]
         public void TestGraph(string filePath)
         {
-            var res = Program.CheckFileParser(filePath, graphVisualise: true);
+            var res = Program.CheckFileParser(filePath, true, true);
             Assert.True(res);
         }
     }
