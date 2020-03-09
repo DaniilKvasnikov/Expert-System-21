@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Expert_System_21;
 using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
@@ -97,11 +98,10 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/schoolTests/30")]
         [TestCase(typeof(Exception), "tests/schoolTests/31")]
         [TestCase(typeof(Exception), null)]
-        
         public void RunErrorException(Type expectedExceptionType, string filePath)
         {
             Assert.Throws(expectedExceptionType,
-                () => Expert_System_21.Program.CheckFileParser(filePath));
+                () => Program.CheckFileParser(filePath));
         }
     }
 }

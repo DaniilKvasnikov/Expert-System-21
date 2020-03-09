@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Expert_System_21;
+using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
 {
@@ -8,7 +9,7 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/schoolTests/01")]
         public void TestGraph(string filePath)
         {
-            var res = Expert_System_21.Program.CheckFileParser(filePath, graphVisualise: true);
+            var res = Program.CheckFileParser(filePath, graphVisualise: true);
             Assert.True(res);
         }
     }

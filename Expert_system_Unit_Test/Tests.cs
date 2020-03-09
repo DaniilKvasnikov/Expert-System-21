@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Expert_System_21;
+using NUnit.Framework;
 
 namespace Expert_system_Unit_Test
 {
@@ -79,11 +80,9 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/_examples/good_files/test_parents_priority.txt")]
         [TestCase("tests/_examples/good_files/test_parents_priority2.txt")]
         [TestCase("tests/_examples/bad_files/INVALID_FOR_TESTS_2")]
-        
-        
         public void CheckFileParserDebug(string filePath)
         {
-            var res = Expert_System_21.Program.CheckFileParser(filePath, true);
+            var res = Program.CheckFileParser(filePath, true);
             Assert.True(res);
         }
 
@@ -118,7 +117,7 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/schoolTests/29")]
         public void SchoolTest(string filePath)
         {
-            var res = Expert_System_21.Program.CheckFileParser(filePath);
+            var res = Program.CheckFileParser(filePath);
             Assert.True(res);
         }
     }

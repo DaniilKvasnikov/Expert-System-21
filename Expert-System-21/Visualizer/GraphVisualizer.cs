@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Expert_System_21.MyExtensions;
 using Expert_System_21.Nodes;
 using Expert_System_21.Parser;
+using Microsoft.Msagl.Core.DataStructures;
 using Microsoft.Msagl.Drawing;
 using Microsoft.Msagl.GraphViewerGdi;
 using Node = Microsoft.Msagl.Drawing.Node;
@@ -12,6 +13,7 @@ namespace Expert_System_21.Visualizer
 {
     public class GraphVisualizer
     {
+        private readonly Size _formSize = new Size(1280, 720);
         private readonly Graph _graph;
 
         private readonly Dictionary<System.Type, NodeInfoVisualise> _nodeInfoVisualises =
@@ -28,6 +30,8 @@ namespace Expert_System_21.Visualizer
         public GraphVisualizer(ExpertSystemTree tree, FileParser parser)
         {
             var form = new Form();
+            form.Width = (int) _formSize.Width;
+            form.Height = (int) _formSize.Height;
             var viewer = new GViewer();
             _parser = parser;
             _graph = new Graph("graph");

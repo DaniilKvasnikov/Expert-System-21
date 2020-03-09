@@ -26,7 +26,7 @@ namespace Expert_system_Unit_Test
         {
             var notation = new ReversePolishNotation();
             var inputCopy = input.PreProcess();
-            string notationResult = notation.Convert(inputCopy);
+            var notationResult = notation.Convert(inputCopy);
             Assert.True(string.Equals(notationResult, expectedString));
         }
 
@@ -41,6 +41,5 @@ namespace Expert_system_Unit_Test
             var notation = new ReversePolishNotation();
             Assert.True(Equals(notation.GetType(c), type));
         }
-
     }
 }
