@@ -45,6 +45,7 @@ namespace Expert_System_21.Visualizer
         private Color FactColor { get; } = Color.Gold;
         private Color TrueStateColor { get; } = Color.Green;
         private Color FalseStateColor { get; } = Color.Red;
+        private Color NullStateColor { get; } = Color.Blue;
 
         private NodeInfoVisualise DefaultNodeInfo { get; } = new NodeInfoVisualise(Color.Black, Shape.Circle);
 
@@ -84,6 +85,9 @@ namespace Expert_System_21.Visualizer
                     break;
                 case false:
                     nodeInfoVisualise.FillColor = FalseStateColor;
+                    break;
+                case null:
+                    nodeInfoVisualise.FillColor = NullStateColor;
                     break;
             }
 
