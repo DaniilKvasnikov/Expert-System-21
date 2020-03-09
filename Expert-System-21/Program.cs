@@ -37,7 +37,7 @@ namespace Expert_System_21
 			LogResult.PrintResults(results, result);
 			if (graphVisualise)
 			{
-				new PraphVisualizer(tree);
+				new GraphVisualizer(tree, parser);
 			}
 
 			return result;

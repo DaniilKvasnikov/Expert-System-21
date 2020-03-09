@@ -3,12 +3,13 @@ using System.Linq;
 using System.Windows.Forms;
 using Expert_System_21.MyExtensions;
 using Expert_System_21.Nodes;
+using Expert_System_21.Parser;
 using Microsoft.Msagl.Drawing;
 using Node = Expert_System_21.Nodes.Node;
 
 namespace Expert_System_21.Visualizer
 {
-    public class PraphVisualizer
+    public class GraphVisualizer
     {
         private readonly Dictionary<System.Type, NodeInfoVisualise> _nodeInfoVisualises = new Dictionary<System.Type, NodeInfoVisualise>()
         {
@@ -16,20 +17,24 @@ namespace Expert_System_21.Visualizer
             {typeof(ConnectorNode), new NodeInfoVisualise(Shape.Diamond)},
             {typeof(NegativeNode), new NodeInfoVisualise(Shape.Box)},
         };
-        
-        private Color TrueStateColor = Color.Green;
-        private Color FalseStateColor = Color.Red;
+
+        private Color FactColor { get; } = Color.Gold;
+        private Color TrueStateColor { get; } = Color.Green;
+        private Color FalseStateColor { get; } = Color.Red;
 
         private NodeInfoVisualise DefaultNodeInfo { get; } = new NodeInfoVisualise(Color.Black, Shape.Circle);
         private readonly Dictionary<string, Microsoft.Msagl.Drawing.Node> _nodes = new Dictionary<string, Microsoft.Msagl.Drawing.Node>();
-        public PraphVisualizer(ExpertSystemTree tree)
+        private readonly Graph _graph;
+        private readonly FileParser _parser;
+        public GraphVisualizer(ExpertSystemTree tree, FileParser parser)
         {
             Form form = new Form();
             Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
-            Graph graph = new Graph("graph");
+            _parser = parser;
+            _graph = new Graph("graph");
             foreach (var atom in tree.Atoms)
-                AddToGraph(graph, atom.Value);
-            viewer.Graph = graph;
+                AddToGraph(atom.Value);
+            viewer.Graph = _graph;
             form.SuspendLayout();
             viewer.Dock = DockStyle.Fill;
             viewer.ToolBarIsVisible = false;
@@ -38,30 +43,30 @@ namespace Expert_System_21.Visualizer
             form.ShowDialog();
         }
 
-        private void AddToGraph(Graph graph, Node atom)
+        private void AddToGraph(Node atom)
         {
             if (atom.Visited) return;
             atom.Visited = true;
             foreach (Node atomParent in atom.OperandParents)
-                AddToGraph(graph, atomParent);
-            AddNodes(graph, atom, atom.Children);
+                AddToGraph(atomParent);
+            AddNodes(atom, atom.Children);
             if (atom.GetType() == typeof(ConnectorNode))
-                AddNodes(graph, atom, ((ConnectorNode) atom).Operands);
+                AddNodes(atom, ((ConnectorNode) atom).Operands);
             atom.Visited = false;
         }
 
-        private void AddNodes(Graph graph, Node currentNode, List<Node> nodes)
+        private void AddNodes(Node currentNode, List<Node> nodes)
         {
             foreach (Node node in nodes)
             {
-                var source = AddNode(graph, currentNode);
-                var target = AddNode(graph, node);
-                AddEdge(graph, source, target);
-                AddToGraph(graph, node);
+                var source = AddNode(currentNode);
+                var target = AddNode(node);
+                AddEdge(source, target);
+                AddToGraph(node);
             }
         }
 
-        private Microsoft.Msagl.Drawing.Node AddNode(Graph graph, Node node)
+        private Microsoft.Msagl.Drawing.Node AddNode(Node node)
         {
             string name = node.ToString();
             NodeInfoVisualise nodeInfoVisualise = DefaultNodeInfo;
@@ -76,27 +81,28 @@ namespace Expert_System_21.Visualizer
                     nodeInfoVisualise.FillColor = FalseStateColor;
                     break;
             }
-            return AddNode(graph, name, nodeInfoVisualise);
+
+            bool isFact = node.GetType() == typeof(AtomNode) && _parser.Facts.Contains(((AtomNode) node).Name);
+            return AddNode(name, nodeInfoVisualise, isFact);
         }
 
-        private Microsoft.Msagl.Drawing.Node AddNode(Graph graph, string name, NodeInfoVisualise nodeInfoVisualise)
+        private Microsoft.Msagl.Drawing.Node AddNode(string name, NodeInfoVisualise nodeInfoVisualise, bool isFact)
         {
             if (_nodes.ContainsKey(name))
                 return _nodes[name];
-            Microsoft.Msagl.Drawing.Node nodeGraph = graph.AddNode(name);
+            Microsoft.Msagl.Drawing.Node nodeGraph = _graph.AddNode(name);
             nodeGraph.Attr.Copy(nodeInfoVisualise);
+            if (isFact)
+                nodeGraph.Attr.Color = FactColor;
             _nodes.Add(name, nodeGraph);
             return nodeGraph;
         }
 
-
-        private void AddEdge(Graph graph,
-            Microsoft.Msagl.Drawing.Node source,
-            Microsoft.Msagl.Drawing.Node target)
+        private void AddEdge(Microsoft.Msagl.Drawing.Node source, Microsoft.Msagl.Drawing.Node target)
         {
-            if (graph.Edges.Any(edge => edge.Source == source.Id && edge.Target == target.Id))
+            if (_graph.Edges.Any(edge => edge.Source == source.Id && edge.Target == target.Id))
                 return;
-            var newEdge = graph.AddEdge(source.Id, target.Id);
+            var newEdge = _graph.AddEdge(source.Id, target.Id);
             newEdge.Attr.ArrowheadAtTarget  = ArrowStyle.None;
             newEdge.Attr.ArrowheadAtSource  = ArrowStyle.Normal;
         }

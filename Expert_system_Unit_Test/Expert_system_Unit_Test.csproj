@@ -44,6 +44,7 @@
     <ItemGroup>
         <Compile Include="ErrorTests.cs" />
         <Compile Include="FileParserTest.cs" />
+        <Compile Include="GraphVisualizerTest.cs" />
         <Compile Include="ReversePolishNotationTest.cs" />
         <Compile Include="Tests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,11 +10,6 @@ namespace Expert_System_21.Visualizer
             Shape = shape;
         }
         
-        public NodeInfoVisualise(Color color)
-        {
-            Color = color;
-        }
-        
         public NodeInfoVisualise(Shape shape)
         {
             Shape = shape;

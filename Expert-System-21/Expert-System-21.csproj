@@ -79,7 +79,7 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Visualizer\NodeInfoVisualise.cs" />
-        <Compile Include="Visualizer\PraphVisualizer.cs" />
+        <Compile Include="Visualizer\GraphVisualizer.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

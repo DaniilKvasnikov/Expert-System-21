@@ -2,13 +2,13 @@
 {
     public class AtomNode: Node
     {
-        private string _name;
+        public char Name { get; }
 
-        public AtomNode(string name)
+        public AtomNode(char name)
         {
-            _name = name;
+            Name = name;
         }
-        
+
         public static bool IsAtom(char ch)
         {
             return 'A' <= ch && ch <= 'Z';
@@ -16,7 +16,7 @@
 
         public override string ToString()
         {
-            return _name;
+            return Name.ToString();
         }
     }
 }

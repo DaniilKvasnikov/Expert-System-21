@@ -133,7 +133,7 @@ namespace Expert_System_21
         {
             foreach (var atom in newAtoms.Where(atom => !Atoms.ContainsKey(atom)))
             {
-                Atoms.Add(atom, new AtomNode(atom.ToString()));
+                Atoms.Add(atom, new AtomNode(atom));
             }
         }
 
