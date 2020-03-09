@@ -5,6 +5,6 @@
         OR = '|',
         AND = '&',
         XOR = '^',
-        IMPLY = '=',
+        IMPLY = '='
     }
 }

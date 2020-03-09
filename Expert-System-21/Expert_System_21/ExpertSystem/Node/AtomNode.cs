@@ -1,13 +1,13 @@
 ﻿namespace Expert_System_21.Nodes
 {
-    public class AtomNode: Node
+    public class AtomNode : Node
     {
-        public char Name { get; }
-
         public AtomNode(char name)
         {
             Name = name;
         }
+
+        public char Name { get; }
 
         public static bool IsAtom(char ch)
         {

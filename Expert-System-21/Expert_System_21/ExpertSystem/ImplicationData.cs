@@ -5,14 +5,14 @@ namespace Expert_System_21
 {
     public class ImplicationData
     {
-        public Node Left { get; }
-        public Node Right { get; }
-
         public ImplicationData(Node left, Node right)
         {
             Left = left;
             Right = right;
         }
+
+        public Node Left { get; }
+        public Node Right { get; }
 
         public void Validate()
         {

@@ -3,6 +3,6 @@
     public enum ImplicationType
     {
         IMPLY,
-        EQUAL,
+        EQUAL
     }
 }

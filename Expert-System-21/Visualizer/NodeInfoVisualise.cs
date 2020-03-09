@@ -2,14 +2,14 @@
 
 namespace Expert_System_21.Visualizer
 {
-    public class NodeInfoVisualise: NodeAttr
+    public class NodeInfoVisualise : NodeAttr
     {
         public NodeInfoVisualise(Color color, Shape shape)
         {
             Color = color;
             Shape = shape;
         }
-        
+
         public NodeInfoVisualise(Shape shape)
         {
             Shape = shape;

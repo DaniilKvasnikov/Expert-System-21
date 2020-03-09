@@ -2,7 +2,7 @@
 
 namespace Expert_System_21.Nodes
 {
-    public class NegativeNode: Node
+    public class NegativeNode : Node
     {
         public NegativeNode(Node child)
         {
@@ -18,20 +18,17 @@ namespace Expert_System_21.Nodes
             base.AddChildren(child);
             child.OperandParents.Add(this);
         }
-        
+
         public override void SetState(bool? status, bool isFixed)
         {
             base.SetState(status, isFixed);
-            ((Node)Children[0]).SetState(!status, isFixed);
+            Children[0].SetState(!status, isFixed);
         }
-        
+
         public override string ToString()
         {
-            string str = "!(";
-            foreach (var operand in Children)
-            {
-                str += operand.ToString();
-            }
+            var str = "!(";
+            foreach (var operand in Children) str += operand.ToString();
             str += ")";
             return str;
         }

@@ -9,15 +9,11 @@ namespace Expert_System_21.ExpertSystem
 {
     public class ExpertSystemRule
     {
-        public ImplicationType Type { get; }
-        public string NpiLeft { get; }
-        public string NpiRight { get; }
-
         public ExpertSystemRule(string line)
         {
             Type = line.Contains("<=>") ? ImplicationType.EQUAL : ImplicationType.IMPLY;
             var notation = new ReversePolishNotation();
-            string[] separator = new[] {"=>", "<=>"};
+            string[] separator = {"=>", "<=>"};
             var lines = line.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (lines.Length != 2)
                 throw new Exception("ESRule error convert! " + line);
@@ -31,6 +27,10 @@ namespace Expert_System_21.ExpertSystem
                 throw new Exception("Format error!(+! and <=>) " + line);
         }
 
+        public ImplicationType Type { get; }
+        public string NpiLeft { get; }
+        public string NpiRight { get; }
+
         public List<char> GetAtomsPart(string part)
         {
             var atoms = new List<char>();
@@ -38,6 +38,5 @@ namespace Expert_System_21.ExpertSystem
                 atoms.Add(atom);
             return atoms;
         }
-        
     }
 }

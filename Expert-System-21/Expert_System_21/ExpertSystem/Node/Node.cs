@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Expert_System_21.Type;
 
@@ -7,20 +6,20 @@ namespace Expert_System_21.Nodes
 {
     public class Node
     {
-        public List<Node> Children { get; } = new List<Node>();
-        public List<Node> OperandParents { get; } = new List<Node>();
         public bool Visited;
-        public bool? State { get; protected set; }
-        private bool _stateFixed;
-
-        public bool StateFixed => _stateFixed;
 
         public Node()
         {
             Visited = false;
             State = false;
-            _stateFixed = false;
+            StateFixed = false;
         }
+
+        public List<Node> Children { get; } = new List<Node>();
+        public List<Node> OperandParents { get; } = new List<Node>();
+        public bool? State { get; protected set; }
+
+        public bool StateFixed { get; private set; }
 
         public virtual void AddChildren(Node child)
         {
@@ -30,11 +29,11 @@ namespace Expert_System_21.Nodes
 
         public virtual void SetState(bool? status, bool isFixed)
         {
-            if (_stateFixed && isFixed && State != null && State != status)
+            if (StateFixed && isFixed && State != null && State != status)
                 throw new Exception("[Conflict] " + ToString() + " two different states");
-            
+
             State = status;
-            _stateFixed = isFixed;
+            StateFixed = isFixed;
         }
 
         public virtual bool? Solve()
@@ -46,10 +45,10 @@ namespace Expert_System_21.Nodes
             if (State != null)
             {
                 state = State;
-                if (_stateFixed)
+                if (StateFixed)
                     return state;
             }
-            
+
             var fixedNodeList = new List<bool?>();
             var unfixedNodeList = new List<bool?>();
 
@@ -86,14 +85,16 @@ namespace Expert_System_21.Nodes
             var fixedNodeList = new List<bool?>();
             var unfixedNodeList = new List<bool?>();
 
-            foreach (Node node in nodes)
+            foreach (var node in nodes)
             {
-                if (checkingParents && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type != ConnectorType.AND)
+                if (checkingParents && node.GetType() == typeof(ConnectorNode) &&
+                    ((ConnectorNode) node).Type != ConnectorType.AND)
                     continue;
                 var nodeSolve = node.Solve();
-                if (GetType() == typeof(NegativeNode) && node.GetType() == typeof(ConnectorNode) && ((ConnectorNode) node).Type == ConnectorType.IMPLY && !checkingParents)
+                if (GetType() == typeof(NegativeNode) && node.GetType() == typeof(ConnectorNode) &&
+                    ((ConnectorNode) node).Type == ConnectorType.IMPLY && !checkingParents)
                     nodeSolve = !nodeSolve;
-                if (nodeSolve != null && node._stateFixed)
+                if (nodeSolve != null && node.StateFixed)
                     fixedNodeList.Add(nodeSolve);
                 else if (nodeSolve != null)
                     unfixedNodeList.Add(nodeSolve);

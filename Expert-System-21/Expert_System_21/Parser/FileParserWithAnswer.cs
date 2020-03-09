@@ -6,25 +6,22 @@ namespace Expert_System_21.Parser
 {
     public class FileParserWithAnswer : FileParser
     {
-        public List<char> ExpectedTrueResults { get; } = new List<char>();
-        public List<char> ExpectedFalseResults { get; } = new List<char>();
-
         private const string PatternTrueResults = @"(^#=)";
         private const string PatternFalseResults = @"(^#!=)";
 
-        public FileParserWithAnswer(string[] lines): base(lines)
+        public FileParserWithAnswer(string[] lines) : base(lines)
         {
-            foreach (var line in lines)
-            {
-                AddExpectedResult(line);
-            }
+            foreach (var line in lines) AddExpectedResult(line);
         }
+
+        public List<char> ExpectedTrueResults { get; } = new List<char>();
+        public List<char> ExpectedFalseResults { get; } = new List<char>();
 
 
         private void AddExpectedResult(string line)
         {
-            bool isMatchExpectedTrueResults = Regex.IsMatch(line, PatternTrueResults);
-            bool isMatchExpectedFalseResults = Regex.IsMatch(line, PatternFalseResults);
+            var isMatchExpectedTrueResults = Regex.IsMatch(line, PatternTrueResults);
+            var isMatchExpectedFalseResults = Regex.IsMatch(line, PatternFalseResults);
             line = line.ReplaceOneOf("#!?= ", "");
             if (isMatchExpectedTrueResults)
                 ExpectedTrueResults.AddRange(line);

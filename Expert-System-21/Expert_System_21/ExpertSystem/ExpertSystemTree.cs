@@ -11,18 +11,14 @@ namespace Expert_System_21
 {
     public class ExpertSystemTree
     {
-        private static readonly List<char> Operators = new List<char>(){'!', '+', '|', '^', '(', ')'};
+        private static readonly List<char> Operators = new List<char> {'!', '+', '|', '^', '(', ')'};
 
-        private static readonly Dictionary<char, ConnectorType> ListOperations = new Dictionary<char, ConnectorType>()
+        private static readonly Dictionary<char, ConnectorType> ListOperations = new Dictionary<char, ConnectorType>
         {
             ['+'] = ConnectorType.AND,
             ['|'] = ConnectorType.OR,
-            ['^'] = ConnectorType.XOR,
+            ['^'] = ConnectorType.XOR
         };
-
-        public Dictionary<char, AtomNode> Atoms { get; } = new Dictionary<char, AtomNode>();
-        public Stack<ConnectorNode> Connectors { get; } = new Stack<ConnectorNode>();
-        public List<ImplicationData> Implication { get; } = new List<ImplicationData>();
 
         public ExpertSystemTree(FileParser parser)
         {
@@ -30,6 +26,10 @@ namespace Expert_System_21
             SetStateAtoms(parser.Rules, parser.Facts);
             SetAtomsRelations(parser.Rules);
         }
+
+        public Dictionary<char, AtomNode> Atoms { get; } = new Dictionary<char, AtomNode>();
+        public Stack<ConnectorNode> Connectors { get; } = new Stack<ConnectorNode>();
+        public List<ImplicationData> Implication { get; } = new List<ImplicationData>();
 
         private void InitAtomsList(ArrayList rules)
         {
@@ -46,8 +46,8 @@ namespace Expert_System_21
         {
             foreach (ExpertSystemRule rule in rules)
             {
-                Node left = SetAtomRelationsFromRPN(rule.NpiLeft);
-                Node right = SetAtomRelationsFromRPN(rule.NpiRight);
+                var left = SetAtomRelationsFromRPN(rule.NpiLeft);
+                var right = SetAtomRelationsFromRPN(rule.NpiRight);
 
                 var connectorImply = new ConnectorNode(ConnectorType.IMPLY);
                 right.AddChildren(connectorImply);
@@ -66,7 +66,6 @@ namespace Expert_System_21
             var stack = new Stack<Node>();
 
             foreach (var ruleRPN in rulesRPN)
-            {
                 if (!Operators.Contains(ruleRPN))
                 {
                     stack.Push(Atoms[ruleRPN]);
@@ -78,15 +77,17 @@ namespace Expert_System_21
                 else
                 {
                     ConnectorNode newConnector;
-                    Node atom1 = stack.Pop();
-                    Node atom2 = stack.Pop();
-                    if (atom1.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom1).Type == ListOperations[ruleRPN])
+                    var atom1 = stack.Pop();
+                    var atom2 = stack.Pop();
+                    if (atom1.GetType() == typeof(ConnectorNode) &&
+                        ((ConnectorNode) atom1).Type == ListOperations[ruleRPN])
                     {
                         ((ConnectorNode) atom1).AddOperand(atom2);
                         newConnector = (ConnectorNode) atom1;
                         Connectors.Pop();
                     }
-                    else if (atom2.GetType() == typeof(ConnectorNode) && ((ConnectorNode) atom2).Type == ListOperations[ruleRPN])
+                    else if (atom2.GetType() == typeof(ConnectorNode) &&
+                             ((ConnectorNode) atom2).Type == ListOperations[ruleRPN])
                     {
                         ((ConnectorNode) atom2).AddOperand(atom1);
                         newConnector = (ConnectorNode) atom2;
@@ -95,12 +96,12 @@ namespace Expert_System_21
                     else
                     {
                         newConnector = new ConnectorNode(ListOperations[ruleRPN]);
-                        newConnector.AddOperands(new[]{atom1, atom2});
+                        newConnector.AddOperands(new[] {atom1, atom2});
                     }
+
                     Connectors.Push(newConnector);
                     stack.Push(newConnector);
                 }
-            }
 
             return stack.Pop();
         }
@@ -131,10 +132,7 @@ namespace Expert_System_21
 
         private void AddNewAtomsNode(List<char> newAtoms)
         {
-            foreach (var atom in newAtoms.Where(atom => !Atoms.ContainsKey(atom)))
-            {
-                Atoms.Add(atom, new AtomNode(atom));
-            }
+            foreach (var atom in newAtoms.Where(atom => !Atoms.ContainsKey(atom))) Atoms.Add(atom, new AtomNode(atom));
         }
 
         public bool? ResolveQuery(char query)
@@ -142,23 +140,21 @@ namespace Expert_System_21
             if (!Atoms.ContainsKey(query))
                 throw new ArgumentNullException("_atoms[atom]");
             var atom = Atoms[query];
-            bool? res = atom.Solve();
+            var res = atom.Solve();
             if (res == null)
             {
                 atom.SetState(false, true);
                 res = false;
             }
+
             CheckErrors();
-            
+
             return res;
         }
 
         private void CheckErrors()
         {
-            foreach (var i in Implication)
-            {
-                i.Validate();
-            }
+            foreach (var i in Implication) i.Validate();
         }
 
         public Dictionary<char, bool?> ResolveQuerys(List<char> queries)

@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Expert_System_21.Type;
 
 namespace Expert_System_21.Nodes
 {
     public class ConnectorNode : Node
     {
+        public ConnectorNode(ConnectorType type)
+        {
+            Type = type;
+            State = null;
+            IsRoot = false;
+        }
+
         public ConnectorType Type { get; }
         public List<Node> Operands { get; } = new List<Node>();
         public bool IsRoot { get; }
@@ -20,13 +26,6 @@ namespace Expert_System_21.Nodes
                 operand.SetState(true, isFixed);
         }
 
-        public ConnectorNode(ConnectorType type)
-        {
-            Type = type;
-            State = null;
-            IsRoot = false;
-        }
-        
         public void AddOperand(Node operand)
         {
             if (Type == ConnectorType.IMPLY && Operands.Count > 0)
@@ -58,14 +57,14 @@ namespace Expert_System_21.Nodes
             }
 
             bool? operandsResult = null;
-            bool foundNone = false;
-            bool hasFixedOperands = false;
+            var foundNone = false;
+            var hasFixedOperands = false;
 
             foreach (var operand in Operands)
             {
                 var operandResult = operand.Solve();
                 hasFixedOperands |= operand.StateFixed;
-                foundNone |= (operandResult == null);
+                foundNone |= operandResult == null;
                 if (operandResult == null)
                     continue;
                 if (operandsResult == null)
@@ -79,9 +78,9 @@ namespace Expert_System_21.Nodes
             }
 
             Visited = false;
-            if (foundNone && ((Type == ConnectorType.OR && operandsResult == false) ||
-                               (Type == ConnectorType.AND && operandsResult == true) ||
-                               (Type == ConnectorType.XOR)))
+            if (foundNone && (Type == ConnectorType.OR && operandsResult == false ||
+                              Type == ConnectorType.AND && operandsResult == true ||
+                              Type == ConnectorType.XOR))
                 return null;
             if (operandsResult != null)
             {
@@ -94,7 +93,7 @@ namespace Expert_System_21.Nodes
 
         public override string ToString()
         {
-            string str = "";
+            var str = "";
             str = string.Join(((char) Type).ToString(), Operands);
             if (Type == ConnectorType.IMPLY)
                 str += (char) Type;

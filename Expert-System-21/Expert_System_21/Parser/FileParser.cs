@@ -9,34 +9,33 @@ namespace Expert_System_21.Parser
 {
     public class FileParser
     {
-        public List<char> Facts{ get; } = new List<char>();
-        public List<char> Queries { get; } = new List<char>();
-        public ArrayList Rules { get; } = new ArrayList();
-
         private const string PatternFact = @"(^=[A-Z]*(\s)*$)";
         private const string PatternQuerie = @"(^\?[A-Z]*(\s)*$)";
-        private const string PatternRule = @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
+
+        private const string PatternRule =
+            @"(^((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*((\s*[+|^]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*(=>|<=>)\s*((\()*(\s)*(!){0,2})*[A-Z](\s)*(\))*((\s*[+]\s*((\()*(\s)*(!){0,2})*(\s)*[A-Z](\s)*(\))*)*)?\s*$)";
 
         private int _countFact;
         private int _countQuerie;
         private int _countRule;
-        
+
         public FileParser(IEnumerable<string> lines)
         {
             if (lines == null) throw new Exception("lines must be not null!");
-            foreach (var line in lines)
-            {
-                AddExpectedResult(line);
-            }
+            foreach (var line in lines) AddExpectedResult(line);
             if (_countQuerie == 0) throw new Exception("Queries not found");
         }
+
+        public List<char> Facts { get; } = new List<char>();
+        public List<char> Queries { get; } = new List<char>();
+        public ArrayList Rules { get; } = new ArrayList();
 
         private void AddExpectedResult(string line)
         {
             line = line.PreProcess();
-            bool isMatchFact = Regex.IsMatch(line, PatternFact);
-            bool isMatchQuerie = Regex.IsMatch(line, PatternQuerie);
-            bool isMatchRule = Regex.IsMatch(line, PatternRule);
+            var isMatchFact = Regex.IsMatch(line, PatternFact);
+            var isMatchQuerie = Regex.IsMatch(line, PatternQuerie);
+            var isMatchRule = Regex.IsMatch(line, PatternRule);
             if (isMatchRule)
             {
                 if (_countQuerie > 0)
