@@ -16,6 +16,7 @@ namespace Expert_System_21
             {
                 CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
                 {
+                    Logger.Log = options.FullLog;
                     CheckFileParser(options.FileName, options.DebugMode, options.Visualisation);
                 });
             }
@@ -33,7 +34,7 @@ namespace Expert_System_21
             var tree = new ExpertSystemTree(parser);
             var results = tree.ResolveQuerys(parser.Queries);
             var result = !debugMode || CheckResults(results, (FileParserWithAnswer) parser);
-            LogResult.PrintResults(results, result);
+            Logger.PrintResults(results, result);
             if (graphVisualise) new GraphVisualizer(tree, parser);
 
             return result;
