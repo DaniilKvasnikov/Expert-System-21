@@ -34,5 +34,10 @@ namespace Expert_System_21.MyExtensions
             attr.FillColor = newAttr.FillColor;
             return attr;
         }
+
+        public static string ForPrint(this bool? state)
+        {
+            return state == null ? "null" : state.Value.ToString();
+        }
     }
 }

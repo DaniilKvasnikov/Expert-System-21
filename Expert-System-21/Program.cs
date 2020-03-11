@@ -28,6 +28,7 @@ namespace Expert_System_21
 
         public static bool CheckFileParser(string filePath, bool debugMode = false, bool graphVisualise = false)
         {
+            Logger.DebugMode = debugMode;
             if (filePath == null) throw new Exception("filePath must be not null!");
             var lines = File.ReadAllLines(filePath);
             var parser = debugMode ? new FileParserWithAnswer(lines) : new FileParser(lines);

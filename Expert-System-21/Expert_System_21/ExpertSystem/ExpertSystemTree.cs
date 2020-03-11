@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Expert_System_21.ExpertSystem;
+using Expert_System_21.Logs;
 using Expert_System_21.Nodes;
 using Expert_System_21.Parser;
 using Expert_System_21.Type;
@@ -137,6 +138,8 @@ namespace Expert_System_21
 
         public bool? ResolveQuery(char query)
         {
+            Logger.LogString(string.Format("Получаем значение {0}", query));
+
             if (!Atoms.ContainsKey(query))
                 throw new ArgumentNullException("_atoms[atom]");
             var atom = Atoms[query];
@@ -154,6 +157,7 @@ namespace Expert_System_21
 
         private void CheckErrors()
         {
+            Logger.LogString("Выполняем проверку на всех последствиях.");
             foreach (var i in Implication) i.Validate();
         }
 

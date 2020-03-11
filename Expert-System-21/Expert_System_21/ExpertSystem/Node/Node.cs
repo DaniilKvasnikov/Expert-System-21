@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Expert_System_21.Logs;
+using Expert_System_21.MyExtensions;
 using Expert_System_21.Type;
 
 namespace Expert_System_21.Nodes
@@ -32,6 +34,8 @@ namespace Expert_System_21.Nodes
             if (StateFixed && isFixed && State != null && State != status)
                 throw new Exception("[Conflict] " + ToString() + " two different states");
 
+            if (State != status)
+                Logger.LogString(string.Format("{0} задан как {1}", this, status.ForPrint()));
             State = status;
             StateFixed = isFixed;
         }
@@ -44,6 +48,7 @@ namespace Expert_System_21.Nodes
             bool? state = null;
             if (State != null)
             {
+                Logger.LogString(string.Format("{0} уже имеет значение {1}", this, State));
                 state = State;
                 if (StateFixed)
                     return state;
@@ -52,10 +57,15 @@ namespace Expert_System_21.Nodes
             var fixedNodeList = new List<bool?>();
             var unfixedNodeList = new List<bool?>();
 
+            if (Children.Count > 0)
+                Logger.LogString(string.Format("{0} запрашивает ответ у детей {1}", this, string.Join(", ", Children)));
             var (fixedNodeListNew, unfixedNodeListNew) = SolveGroupedNode(Children, false);
             fixedNodeList.AddRange(fixedNodeListNew);
             unfixedNodeList.AddRange(unfixedNodeListNew);
 
+            if (OperandParents.Count > 0)
+                Logger.LogString(string.Format("{0} запрашивает ответ у родителей {1}", this,
+                    string.Join(", ", OperandParents)));
             SolveGroupedNode(OperandParents, true);
 
             var nodeList = fixedNodeList.Count != 0 ? fixedNodeList : unfixedNodeList;

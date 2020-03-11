@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Expert_System_21.Logs;
 using Expert_System_21.Type;
 
 namespace Expert_System_21.Nodes
@@ -47,6 +48,7 @@ namespace Expert_System_21.Nodes
         {
             if (Visited)
                 return State;
+            Logger.LogString(string.Format("{0} запрашивает ответ у операндов {1}", this, string.Join(",", Operands)));
             Visited = true;
             if (Type == ConnectorType.IMPLY)
             {
@@ -94,9 +96,9 @@ namespace Expert_System_21.Nodes
         public override string ToString()
         {
             var str = "";
-            str = string.Join(((char) Type).ToString(), Operands);
             if (Type == ConnectorType.IMPLY)
                 str += (char) Type;
+            str += string.Join(((char) Type).ToString(), Operands);
             return str;
         }
     }
