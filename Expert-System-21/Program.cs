@@ -22,7 +22,7 @@ namespace Expert_System_21
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Logger.LogString("Получена ошибка " + e.Message);
             }
         }
 
