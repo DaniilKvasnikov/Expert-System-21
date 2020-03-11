@@ -1,4 +1,5 @@
-﻿using Expert_System_21.MyExtensions;
+﻿using System;
+using Expert_System_21.MyExtensions;
 using Expert_System_21.Notation;
 using NUnit.Framework;
 
@@ -40,6 +41,17 @@ namespace Expert_system_Unit_Test
         {
             var notation = new ReversePolishNotation();
             Assert.True(Equals(notation.GetType(c), type));
+        }
+
+        [TestCase(typeof(Exception), null)]
+        [TestCase(typeof(Exception), "")]
+        [TestCase(typeof(Exception), "a + B => C")]
+        public void TestNull(Type expectedExceptionType, string str)
+        {
+            var notation = new ReversePolishNotation();
+            var newString = str;
+            Assert.Throws(expectedExceptionType,
+                () => notation.GetNextChar(ref newString, out _));
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Expert_System_21.Notation
         PrefixOperation,
         OpeningBracket,
         ClosingBracket,
-        StringEnd,
         Error
     }
 
@@ -64,15 +63,14 @@ namespace Expert_System_21.Notation
             var result = "";
             while (input.Length > 0)
             {
-                var c = GetNextChar(input, out input, out var type);
+                var c = GetNextChar(ref input, out var type);
                 switch (type)
                 {
                     case CharType.Fact:
                         result += c;
                         break;
                     case CharType.Operation:
-                        while (_stack.Count > 0 && CheckOperation(_stack.Peek(), c))
-                            result += _stack.Pop();
+                        while (_stack.Count > 0 && CheckOperation(_stack.Peek(), c)) result += _stack.Pop();
                         _stack.Push(c);
                         break;
                     case CharType.PrefixOperation:
@@ -82,20 +80,6 @@ namespace Expert_System_21.Notation
                     case CharType.ClosingBracket:
                         result += OperationClosing();
                         break;
-                    case CharType.StringEnd:
-                        while (_stack.Count > 0)
-                        {
-                            c = _stack.Pop();
-                            if (c == '(')
-                                throw new Exception("Error converting string (");
-                            result += c;
-                        }
-
-                        return result;
-                    case CharType.Error:
-                        throw new Exception("Error converting string");
-                    default:
-                        throw new Exception("Unknown type");
                 }
             }
 
@@ -106,42 +90,28 @@ namespace Expert_System_21.Notation
 
         private bool CheckOperation(char peek, char curr)
         {
-            try
-            {
-                var isPrefix = _dicts[CharType.PrefixOperation].ContainsKey(peek);
-                var isMorePriorityOperation = _dicts[CharType.Operation].ContainsKey(peek) &&
-                                              _dicts[CharType.Operation].ContainsKey(curr) &&
-                                              _dicts[CharType.Operation][peek] > _dicts[CharType.Operation][curr];
-                return isPrefix || isMorePriorityOperation;
-            }
-            catch (KeyNotFoundException e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            var isPrefix = _dicts[CharType.PrefixOperation].ContainsKey(peek);
+            var isMorePriorityOperation = _dicts[CharType.Operation].ContainsKey(peek) &&
+                                          _dicts[CharType.Operation].ContainsKey(curr) &&
+                                          _dicts[CharType.Operation][peek] > _dicts[CharType.Operation][curr];
+            return isPrefix || isMorePriorityOperation;
         }
 
-        private char GetNextChar(string input, out string output, out CharType charType)
+        public char GetNextChar(ref string input, out CharType charType)
         {
-            var c = (char) 0;
-            output = input;
-            charType = CharType.StringEnd;
+            if (input == null)
+                throw new Exception("ошибка при чтении null");
             while (input.Length > 0)
             {
-                c = input[0];
+                var c = input[0];
                 input = input.Remove(0, 1);
-                if (!CheckChar(c)) continue;
-                output = input;
+                if (!CheckChar(c))
+                    throw new Exception("неверный символ " + c);
                 charType = GetType(c);
                 return c;
             }
 
-            return c;
+            throw new Exception("ошибка при чтении");
         }
 
         private string OperationClosing()

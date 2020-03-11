@@ -97,11 +97,20 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), "tests/_examples/bad_files/xor3.txt")]
         [TestCase(typeof(Exception), "tests/schoolTests/30")]
         [TestCase(typeof(Exception), "tests/schoolTests/31")]
+        [TestCase(typeof(Exception), "tests/schoolTests/32")]
+        [TestCase(typeof(Exception), "tests/schoolTests/33")]
+        [TestCase(typeof(Exception), "tests/schoolTests/34")]
+        [TestCase(typeof(Exception), "tests/schoolTests/35")]
+        [TestCase(typeof(Exception), "tests/schoolTests/36")]
         [TestCase(typeof(Exception), null)]
         public void RunErrorException(Type expectedExceptionType, string filePath)
         {
             Assert.Throws(expectedExceptionType,
-                () => Program.CheckFileParser(filePath));
+                () =>
+                {
+                    string[] args = {"-f", filePath};
+                    Program.CheckFileParser(filePath);
+                });
         }
     }
 }

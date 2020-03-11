@@ -115,7 +115,8 @@ namespace Expert_system_Unit_Test
         [TestCase("tests/schoolTests/27")]
         [TestCase("tests/schoolTests/28")]
         [TestCase("tests/schoolTests/29")]
-        [TestCase("tests/schoolTests/32")]
+        [TestCase("tests/schoolTests/37")]
+        [TestCase("tests/schoolTests/38")]
         public void SchoolTest(string filePath)
         {
             var res = Program.CheckFileParser(filePath);

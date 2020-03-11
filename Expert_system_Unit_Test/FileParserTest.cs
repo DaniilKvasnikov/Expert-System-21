@@ -19,7 +19,7 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), new[] {"=A", "?C"})]
         public void InputErrorTest(Type expectedExceptionType, string[] lines)
         {
-            Assert.Throws(expectedExceptionType, () =>new FileParser(lines));
+            Assert.Throws(expectedExceptionType, () => new FileParser(lines));
         }
     }
 }
