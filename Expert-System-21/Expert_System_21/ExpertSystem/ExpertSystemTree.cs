@@ -126,7 +126,7 @@ namespace Expert_System_21
         private void SetAtomState(char atom, bool? state)
         {
             if (!Atoms.ContainsKey(atom))
-                throw new ArgumentNullException("_atoms[atom]");
+                throw new Exception("_atoms[atom]");
             Node node = Atoms[atom];
             node.SetState(state, state != null && state.Value);
         }
@@ -141,7 +141,7 @@ namespace Expert_System_21
             Logger.LogString(string.Format("Получаем значение {0}", query));
 
             if (!Atoms.ContainsKey(query))
-                throw new ArgumentNullException("_atoms[atom]");
+                throw new Exception("_atoms[atom]");
             var atom = Atoms[query];
             var res = atom.Solve();
             if (res == null)
