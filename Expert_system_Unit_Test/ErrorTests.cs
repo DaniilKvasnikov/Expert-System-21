@@ -105,12 +105,7 @@ namespace Expert_system_Unit_Test
         [TestCase(typeof(Exception), null)]
         public void RunErrorException(Type expectedExceptionType, string filePath)
         {
-            Assert.Throws(expectedExceptionType,
-                () =>
-                {
-                    string[] args = {"-f", filePath};
-                    Program.CheckFileParser(filePath);
-                });
+            Assert.Throws(expectedExceptionType, () => Program.CheckFileParser(filePath));
         }
     }
 }
