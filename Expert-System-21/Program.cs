@@ -16,19 +16,18 @@ namespace Expert_System_21
             try
             {
                 CommandLine.Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
-                {
-                    Logger.Log = options.FullLog;
-                    CheckFileParser(options.FileName, options.DebugMode, options.Visualisation);
-                });
+                    CheckFileParser(options.FileName, options.DebugMode, options.Visualisation, options.FullLog));
             }
             catch (Exception e)
             {
-                Logger.LogString("Получена ошибка " + e.Message);
+                Logger.Log = true;
+                Logger.LogString("Получена ошибка " + e.Message, ConsoleColor.Red);
             }
         }
 
-        public static bool CheckFileParser(string filePath, bool debugMode = false, bool graphVisualise = false)
+        public static bool CheckFileParser(string filePath, bool debugMode = false, bool graphVisualise = false, bool fullLog = false)
         {
+            Logger.Log = fullLog;
             Logger.DebugMode = debugMode;
             if (filePath == null) throw new Exception("filePath must be not null!");
             var lines = File.ReadAllLines(filePath);
