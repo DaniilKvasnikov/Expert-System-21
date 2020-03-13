@@ -4,16 +4,6 @@ using System.Linq;
 
 namespace Expert_System_21.Notation
 {
-    public enum CharType
-    {
-        Fact,
-        Operation,
-        PrefixOperation,
-        OpeningBracket,
-        ClosingBracket,
-        Error
-    }
-
     public class ReversePolishNotation
     {
         private readonly Dictionary<CharType, Dictionary<char, int>> _dicts =
@@ -60,17 +50,22 @@ namespace Expert_System_21.Notation
             if (input.Length == 0)
                 return input;
             _stack.Clear();
-            var result = "";
+            return GetConvertingString(input);
+        }
+
+        private string GetConvertingString(string input)
+        {
+            var convertingResult = "";
             while (input.Length > 0)
             {
                 var c = GetNextChar(ref input, out var type);
                 switch (type)
                 {
                     case CharType.Fact:
-                        result += c;
+                        convertingResult += c;
                         break;
                     case CharType.Operation:
-                        while (_stack.Count > 0 && CheckOperation(_stack.Peek(), c)) result += _stack.Pop();
+                        while (_stack.Count > 0 && CheckOperation(_stack.Peek(), c)) convertingResult += _stack.Pop();
                         _stack.Push(c);
                         break;
                     case CharType.PrefixOperation:
@@ -78,14 +73,12 @@ namespace Expert_System_21.Notation
                         _stack.Push(c);
                         break;
                     case CharType.ClosingBracket:
-                        result += OperationClosing();
+                        convertingResult += OperationClosing();
                         break;
                 }
             }
-
-            while (_stack.Count > 0)
-                result += _stack.Pop();
-            return result;
+            convertingResult += string.Join("", _stack);
+            return convertingResult;
         }
 
         private bool CheckOperation(char peek, char curr)
@@ -105,8 +98,6 @@ namespace Expert_System_21.Notation
             {
                 var c = input[0];
                 input = input.Remove(0, 1);
-                if (!CheckChar(c))
-                    throw new Exception("неверный символ " + c);
                 charType = GetType(c);
                 return c;
             }
@@ -128,15 +119,12 @@ namespace Expert_System_21.Notation
             throw new Exception("( - not found!");
         }
 
-        private bool CheckChar(char c)
-        {
-            return GetType(c) != CharType.Error;
-        }
-
         public CharType GetType(char c)
         {
             var res = _dicts.FirstOrDefault(dick => dick.Value.ContainsKey(c));
-            return res.Value != null ? res.Key : CharType.Error;
+            if (res.Value == null)
+                throw new Exception("неверный символ " + c);
+            return res.Key;
         }
     }
 }
