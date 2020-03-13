@@ -22,7 +22,7 @@ namespace Expert_System_21.Parser
         public FileParser(IEnumerable<string> lines)
         {
             if (lines == null) throw new Exception("lines must be not null!");
-            foreach (var line in lines) AddExpectedResult(line);
+            foreach (var line in lines) AddExpectedResult(line.PreProcess());
             if (_countQuerie == 0) throw new Exception("Queries not found");
         }
 
@@ -32,39 +32,41 @@ namespace Expert_System_21.Parser
 
         private void AddExpectedResult(string line)
         {
-            line = line.PreProcess();
-            var isMatchFact = Regex.IsMatch(line, PatternFact);
-            var isMatchQuerie = Regex.IsMatch(line, PatternQuerie);
-            var isMatchRule = Regex.IsMatch(line, PatternRule);
-            if (isMatchRule)
-            {
-                if (_countQuerie > 0)
-                    throw new Exception("Queries must come after rules");
-                if (_countFact > 0)
-                    throw new Exception("Facts must come after rules");
-                Rules.Add(new ExpertSystemRule(line));
-                _countRule++;
-            }
-            else if (isMatchFact)
-            {
-                if (_countRule == 0)
-                    throw new Exception("Rules not found before facts");
-                line = line.Replace("=", "");
-                Facts.AddRange(line);
-                _countFact++;
-            }
-            else if (isMatchQuerie)
-            {
-                if (_countFact == 0)
-                    throw new Exception("Fact not found before queries");
-                line = line.Replace("?", "");
-                Queries.AddRange(line);
-                _countQuerie++;
-            }
-            else if (line.Length > 0)
-            {
-                throw new Exception(line);
-            }
+            if (Regex.IsMatch(line, PatternRule))
+                AddRule(line);
+            else if (Regex.IsMatch(line, PatternFact))
+                AddFact(line);
+            else if (Regex.IsMatch(line, PatternQuerie))
+                AddQuerie(line);
+            else if (line.Length > 0) throw new Exception(line);
+        }
+
+        public void AddRule(string line)
+        {
+            if (_countQuerie > 0)
+                throw new Exception("Queries must come after rules");
+            if (_countFact > 0)
+                throw new Exception("Facts must come after rules");
+            Rules.Add(new ExpertSystemRule(line));
+            _countRule++;
+        }
+
+        public void AddFact(string line)
+        {
+            if (_countRule == 0)
+                throw new Exception("Rules not found before facts");
+            line = line.Replace("=", "");
+            Facts.AddRange(line);
+            _countFact++;
+        }
+
+        public void AddQuerie(string line)
+        {
+            if (_countFact == 0)
+                throw new Exception("Fact not found before queries");
+            line = line.Replace("?", "");
+            Queries.AddRange(line);
+            _countQuerie++;
         }
     }
 }
