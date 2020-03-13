@@ -70,6 +70,7 @@
         <Compile Include="Expert_System_21\ExpertSystem\Types\ConnectorType.cs" />
         <Compile Include="Expert_System_21\ExpertSystem\Types\ImplicationType.cs" />
         <Compile Include="Expert_System_21\Logs\Logger.cs" />
+        <Compile Include="Expert_System_21\Notation\CharType.cs" />
         <Compile Include="Expert_System_21\Notation\ReversePolishNotation.cs" />
         <Compile Include="Expert_System_21\Parser\FileParser.cs" />
         <Compile Include="Expert_System_21\Parser\FileParserWithAnswer.cs" />
