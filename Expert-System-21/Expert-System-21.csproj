@@ -73,7 +73,6 @@
         <Compile Include="Expert_System_21\Notation\ReversePolishNotation.cs" />
         <Compile Include="Expert_System_21\Parser\FileParser.cs" />
         <Compile Include="Expert_System_21\Parser\FileParserWithAnswer.cs" />
-        <Compile Include="Forms\MainForm.cs" />
         <Compile Include="MyExtensions\MyExtensions.cs" />
         <Compile Include="Options.cs" />
         <Compile Include="Program.cs" />
