@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Expert_system_Unit_Test
 {
     [TestFixture]
-    public class ErrorTests
+    public class FileErrorTests
     {
         [TestCase(typeof(FileNotFoundException), "tests/nofile")]
         [TestCase(typeof(Exception), "tests/_examples/good_files/error_0.txt")]

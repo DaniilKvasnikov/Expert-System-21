@@ -16,14 +16,13 @@ namespace Expert_System_21.Logs
                 LogString(result.Key + " : " + result.Value);
             var color = check ? ConsoleColor.Green : ConsoleColor.Red;
             if (DebugMode)
-                LogString(check + ". Конец!", color: color);
+                LogString(check + ". Конец!", color);
             Log = false;
         }
 
-        public static void LogString(string message, int tabCount = 0, ConsoleColor? color = null)
+        public static void LogString(string message, ConsoleColor? color = null)
         {
             if (!Log) return;
-            while (--tabCount >= 0) Console.Write('\t');
             Console.OutputEncoding = Encoding.UTF8;
             if (color != null)
                 Console.ForegroundColor = color.Value;

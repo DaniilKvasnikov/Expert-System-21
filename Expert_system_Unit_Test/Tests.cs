@@ -122,5 +122,13 @@ namespace Expert_system_Unit_Test
             var res = Program.CheckFileParser(filePath);
             Assert.True(res);
         }
+
+        [TestCase("tests/schoolTests/38")]
+        [TestCase("tests")]
+        public void ArgsTest(string filePath)
+        {
+            var args = new[] {"-f", filePath, "-l", "-d", "-v"};
+            Program.Main(args);
+        }
     }
 }

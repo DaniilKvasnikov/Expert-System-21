@@ -5,7 +5,7 @@ using Expert_System_21.Nodes;
 using Expert_System_21.Notation;
 using Expert_System_21.Type;
 
-namespace Expert_System_21.ExpertSystem
+namespace Expert_System_21
 {
     public class ExpertSystemRule
     {

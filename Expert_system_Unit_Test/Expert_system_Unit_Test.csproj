@@ -60,7 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorTests.cs" />
+    <Compile Include="ExpertSystemRuleTest.cs" />
+    <Compile Include="NodeTest.cs" />
+    <Compile Include="FileErrorTests.cs" />
     <Compile Include="FileParserTest.cs" />
     <Compile Include="GraphVisualizerTest.cs" />
     <Compile Include="ReversePolishNotationTest.cs" />
