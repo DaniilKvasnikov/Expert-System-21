@@ -11,18 +11,21 @@ namespace Expert_System_21.Logs
 
         public static void PrintResults(Dictionary<char, bool?> results, bool check)
         {
-            Log = true;
             foreach (var result in results)
-                LogString(result.Key + " : " + result.Value);
+                LogStringWithoutCheck(result.Key + " : " + result.Value);
             var color = check ? ConsoleColor.Green : ConsoleColor.Red;
             if (DebugMode)
-                LogString(check + ". Конец!", color);
-            Log = false;
+                LogStringWithoutCheck(check + ". Конец!", color);
         }
 
         public static void LogString(string message, ConsoleColor? color = null)
         {
             if (!Log) return;
+            LogStringWithoutCheck(message, color);
+        }
+        
+        public static void LogStringWithoutCheck(string message, ConsoleColor? color = null)
+        {
             Console.OutputEncoding = Encoding.UTF8;
             if (color != null)
                 Console.ForegroundColor = color.Value;

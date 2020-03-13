@@ -20,8 +20,7 @@ namespace Expert_System_21
             }
             catch (Exception e)
             {
-                Logger.Log = true;
-                Logger.LogString("Получена ошибка " + e.Message, ConsoleColor.Red);
+                Logger.LogStringWithoutCheck("Получена ошибка " + e.Message, ConsoleColor.Red);
             }
         }
 
