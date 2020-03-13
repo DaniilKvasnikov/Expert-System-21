@@ -1,5 +1,5 @@
 ﻿using System;
-using Expert_System_21;
+using Expert_System_21.ExpertSystem;
 using NUnit.Framework;
 
 namespace Expert_system_Unit_Test

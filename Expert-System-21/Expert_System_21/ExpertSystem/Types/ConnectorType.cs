@@ -1,4 +1,4 @@
-﻿namespace Expert_System_21.Type
+﻿namespace Expert_System_21.ExpertSystem.Types
 {
     public enum ConnectorType
     {

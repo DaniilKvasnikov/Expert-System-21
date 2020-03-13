@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Expert_System_21.ExpertSystem.Node;
+using Expert_System_21.ExpertSystem.Types;
 using Expert_System_21.Logs;
-using Expert_System_21.Nodes;
 using Expert_System_21.Parser;
-using Expert_System_21.Type;
 
-namespace Expert_System_21
+namespace Expert_System_21.ExpertSystem
 {
     public class ExpertSystemTree
     {
@@ -61,9 +61,9 @@ namespace Expert_System_21
             }
         }
 
-        private Node SetAtomRelationsFromRPN(string rulesRPN)
+        private Node.Node SetAtomRelationsFromRPN(string rulesRPN)
         {
-            var stack = new Stack<Node>();
+            var stack = new Stack<Node.Node>();
 
             foreach (var ruleRPN in rulesRPN)
                 if (!Operators.Contains(ruleRPN))
@@ -126,7 +126,7 @@ namespace Expert_System_21
         {
             if (!Atoms.ContainsKey(atom))
                 throw new Exception("_atoms[atom]");
-            Node node = Atoms[atom];
+            Node.Node node = Atoms[atom];
             node.SetState(state, state != null && state.Value);
         }
 

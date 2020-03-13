@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Expert_System_21.ExpertSystem;
+using Expert_System_21.ExpertSystem.Node;
 using Expert_System_21.MyExtensions;
-using Expert_System_21.Nodes;
 using Expert_System_21.Parser;
 using Microsoft.Msagl.Core.DataStructures;
 using Microsoft.Msagl.Drawing;
@@ -16,8 +18,8 @@ namespace Expert_System_21.Visualizer
         private readonly Size _formSize = new Size(1280, 720);
         private readonly Graph _graph;
 
-        private readonly Dictionary<System.Type, NodeInfoVisualise> _nodeInfoVisualises =
-            new Dictionary<System.Type, NodeInfoVisualise>
+        private readonly Dictionary<Type, NodeInfoVisualise> _nodeInfoVisualises =
+            new Dictionary<Type, NodeInfoVisualise>
             {
                 {typeof(AtomNode), new NodeInfoVisualise(Shape.Circle)},
                 {typeof(ConnectorNode), new NodeInfoVisualise(Shape.Diamond)},
@@ -53,7 +55,7 @@ namespace Expert_System_21.Visualizer
 
         private NodeInfoVisualise DefaultNodeInfo { get; } = new NodeInfoVisualise(Color.Black, Shape.Circle);
 
-        private void AddToGraph(Nodes.Node atom)
+        private void AddToGraph(ExpertSystem.Node.Node atom)
         {
             if (atom.Visited) return;
             atom.Visited = true;
@@ -65,7 +67,7 @@ namespace Expert_System_21.Visualizer
             atom.Visited = false;
         }
 
-        private void AddNodes(Nodes.Node currentNode, List<Nodes.Node> nodes)
+        private void AddNodes(ExpertSystem.Node.Node currentNode, List<ExpertSystem.Node.Node> nodes)
         {
             foreach (var node in nodes)
             {
@@ -76,7 +78,7 @@ namespace Expert_System_21.Visualizer
             }
         }
 
-        private Node AddNode(Nodes.Node node)
+        private Node AddNode(ExpertSystem.Node.Node node)
         {
             var name = node.ToString();
             var nodeInfoVisualise = DefaultNodeInfo;

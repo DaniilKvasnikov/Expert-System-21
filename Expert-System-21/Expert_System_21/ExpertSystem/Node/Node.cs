@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Expert_System_21.ExpertSystem.Types;
 using Expert_System_21.Logs;
 using Expert_System_21.MyExtensions;
-using Expert_System_21.Type;
 
-namespace Expert_System_21.Nodes
+namespace Expert_System_21.ExpertSystem.Node
 {
     public class Node
     {

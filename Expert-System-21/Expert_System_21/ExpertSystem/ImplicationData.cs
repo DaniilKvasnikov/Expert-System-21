@@ -1,18 +1,17 @@
 ﻿using System;
-using Expert_System_21.Nodes;
 
-namespace Expert_System_21
+namespace Expert_System_21.ExpertSystem
 {
     public class ImplicationData
     {
-        public ImplicationData(Node left, Node right)
+        public ImplicationData(Node.Node left, Node.Node right)
         {
             Left = left;
             Right = right;
         }
 
-        public Node Left { get; }
-        public Node Right { get; }
+        public Node.Node Left { get; }
+        public Node.Node Right { get; }
 
         public void Validate()
         {

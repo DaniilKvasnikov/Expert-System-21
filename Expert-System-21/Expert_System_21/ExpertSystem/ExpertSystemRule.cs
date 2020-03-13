@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Expert_System_21.Nodes;
+using Expert_System_21.ExpertSystem.Node;
+using Expert_System_21.ExpertSystem.Types;
 using Expert_System_21.Notation;
-using Expert_System_21.Type;
 
-namespace Expert_System_21
+namespace Expert_System_21.ExpertSystem
 {
     public class ExpertSystemRule
     {

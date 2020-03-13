@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CommandLine;
+using Expert_System_21.ExpertSystem;
 using Expert_System_21.Logs;
 using Expert_System_21.Parser;
 using Expert_System_21.Visualizer;

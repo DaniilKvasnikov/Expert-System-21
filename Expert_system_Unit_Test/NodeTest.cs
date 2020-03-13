@@ -1,6 +1,6 @@
 ﻿using System;
-using Expert_System_21.Nodes;
-using Expert_System_21.Type;
+using Expert_System_21.ExpertSystem.Node;
+using Expert_System_21.ExpertSystem.Types;
 using NUnit.Framework;
 
 namespace Expert_system_Unit_Test

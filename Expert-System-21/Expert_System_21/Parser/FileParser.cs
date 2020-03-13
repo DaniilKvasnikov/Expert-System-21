@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Expert_System_21.ExpertSystem;
 using Expert_System_21.MyExtensions;
 
 namespace Expert_System_21.Parser
